@@ -28,34 +28,46 @@ namespace SolrNet.Cloud
 
         public IEnumerable<ISolrCloudNode> Leaders{
             get {
-                var leader = this.cloudNodes.FirstOrDefault(node => node.IsActive && node.IsLeader);
-                if (null != leader)
-                    yield return leader;
+                var set = new HashSet<int>();
                 var index = 0;
-                while (index++ < cloudNodes.Length)
-                {
+                while (index++ < cloudNodes.Length) {
                     var node = this.cloudNodes[index];
-                    if (node.IsActive)
+                    if (node.IsActive && !node.IsLeader && set.Add(index)) {
+                        yield return node;
+                        break;
+                    }
+                }
+                index = 0;
+                while (index++ < cloudNodes.Length) {
+                    var node = this.cloudNodes[index];
+                    if (node.IsActive && set.Add(index))
                         yield return node;
                 }
                 index = 0;
-                while (index++ < cloudNodes.Length)
-                    yield return this.cloudNodes[index];
+                while (index++ < cloudNodes.Length) {
+                    var node = this.cloudNodes[index];
+                    if (set.Add(index))
+                        yield return this.cloudNodes[index];
+                }
             }
         }
 
         public IEnumerable<ISolrCloudNode> Replicas {
             get {
-                var index = Interlocked.Increment(ref this.selectCursor);
-                var limit = cloudNodes.Length;
-                while (0 < limit--) {
-                    var node = this.cloudNodes[index++ % cloudNodes.Length];
-                    if (node.IsActive)
+                var set = new HashSet<int>();
+                var cursor = Interlocked.Increment(ref this.selectCursor);
+                while (set.Count < cloudNodes.Length) {
+                    var index = (int) (cursor++%cloudNodes.Length);
+                    var node = this.cloudNodes[index];
+                    if (node.IsActive && set.Add(index))
                         yield return node;
                 }
-                limit = cloudNodes.Length;
-                while (0 < limit--)
-                    yield return this.cloudNodes[index++%cloudNodes.Length];
+                while (set.Count < cloudNodes.Length) {
+                    var index = (int)(cursor++ % cloudNodes.Length);
+                    var node = this.cloudNodes[index];
+                    if (set.Add(index))
+                        yield return node;
+                }
             }
         }
 
