@@ -11,23 +11,23 @@ namespace SolrNet.Cloud
     public class SolrCloudOperations<T>
         : ISolrCloudOperations<T> {
 
-        public SolrCloudOperations(ISolrCloud cloud, IOperationsResolver resolver) {
+        public SolrCloudOperations(ISolrCloud cloud, Func<ISolrCloudNode, ISolrOperations<T>> resolveMethod) {
             this.cloud = cloud;
-            this.resolver = resolver;
+            this.resolveMethod = resolveMethod;
         }
 
         private readonly ISolrCloud cloud;
 
-        private readonly IOperationsResolver resolver;
+        private readonly Func<ISolrCloudNode, ISolrOperations<T>> resolveMethod;
 
         private TResult Perform<TResult>(Func<ISolrOperations<T>,  TResult> operation, bool leader = false) {
             var nodes = leader ? cloud.Leaders : cloud.Replicas;
             foreach (var node in nodes)
             {
                 try {
-                    return operation(resolver.Resolve<T>(node.Id));
+                    return operation(resolveMethod(node));
                 } catch (Exception exception) {
-                    // todo
+                    // todo: deactivate node when not 403, 404, 500, 503
                 }
             }
             throw new ApplicationException("No appropriate node found to perform this operation.");

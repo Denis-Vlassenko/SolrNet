@@ -42,7 +42,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="IOperationsResolver.cs" />
     <Compile Include="ISolrCloud.cs" />
     <Compile Include="ISolrCloudNode.cs" />
     <Compile Include="ISolrCloudOperations.cs" />

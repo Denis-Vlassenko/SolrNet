@@ -4,7 +4,7 @@
 
         bool IsActive { get; set; }
 
-        bool IsLeader { get; }
+        bool IsLeader { get; set; }
 
         string Url { get; }
     }
