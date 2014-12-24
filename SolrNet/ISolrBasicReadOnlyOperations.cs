@@ -15,6 +15,7 @@
 #endregion
 
 using System.Collections.Generic;
+using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Impl;
 using SolrNet.Schema;
@@ -54,6 +55,12 @@ namespace SolrNet {
         /// <param name="schemaFileName">Name of the schema file.</param>
         /// <returns> Solr schema </returns>
         SolrSchema GetSchema(string schemaFileName);
+
+        /// <summary>
+        /// Gets the cluster status.
+        /// </summary>
+        /// <returns> Solr cluster status </returns>
+        SolrClusterStatus GetClusterStatus();
 
         /// <summary>
         /// Gets the current status of the DataImportHandler.

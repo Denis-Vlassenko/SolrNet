@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moroco;
+using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Impl;
 using SolrNet.Mapping.Validation;
@@ -21,6 +22,11 @@ namespace SolrNet.Tests.Mocks {
         }
 
         public SolrSchema GetSchema(string schemaFileName) {
+            throw new NotImplementedException();
+        }
+
+        public SolrClusterStatus GetClusterStatus()
+        {
             throw new NotImplementedException();
         }
 

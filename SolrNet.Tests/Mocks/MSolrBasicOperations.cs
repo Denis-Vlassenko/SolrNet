@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Moroco;
+using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Impl;
 using SolrNet.Schema;
@@ -23,8 +24,16 @@ namespace SolrNet.Tests.Mocks {
 
         public MFunc<SolrSchema> getSchema;
 
+        public MFunc<SolrClusterStatus> getClusterStatus;
+
         public SolrSchema GetSchema(string schemaFileName) {
             return getSchema.Invoke();
+        }
+
+        public SolrClusterStatus GetClusterStatus()
+        {
+            throw new NotImplementedException(); // todo
+            return getClusterStatus.Invoke();
         }
 
         public SolrDIHStatus GetDIHStatus(KeyValuePair<string,string> options) {

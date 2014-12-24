@@ -84,6 +84,12 @@
   <ItemGroup>
     <Compile Include="AbstractSolrQuery.cs" />
     <Compile Include="ClusterResults.cs" />
+    <Compile Include="ClusterStatus\ISolrClusterStatusParser.cs" />
+    <Compile Include="ClusterStatus\SolrCluster.cs" />
+    <Compile Include="ClusterStatus\SolrClusterStatusParser.cs" />
+    <Compile Include="ClusterStatus\SolrCollection.cs" />
+    <Compile Include="ClusterStatus\SolrReplica.cs" />
+    <Compile Include="ClusterStatus\SolrShard.cs" />
     <Compile Include="CollapseExpandResults.cs" />
     <Compile Include="Commands\Parameters\CollapseExpandParameters.cs" />
     <Compile Include="Commands\ReplicationCommand.cs" />

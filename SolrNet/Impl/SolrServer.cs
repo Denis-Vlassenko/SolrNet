@@ -18,6 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Exceptions;
 using SolrNet.Mapping.Validation;
@@ -267,6 +268,11 @@ namespace SolrNet.Impl {
 
         public SolrSchema GetSchema(string schemaFileName) {
             return basicServer.GetSchema(schemaFileName);
+        }
+
+        public SolrClusterStatus GetClusterStatus()
+        {
+            return basicServer.GetClusterStatus();
         }
 
         public IEnumerable<ValidationResult> EnumerateValidationResults() {
