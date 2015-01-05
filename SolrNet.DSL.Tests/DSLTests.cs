@@ -48,10 +48,10 @@ namespace SolrNet.DSL.Tests {
 
         [FixtureSetUp]
         public void FixtureSetup() {
-            Startup.Container.Clear();
-            Startup.InitContainer();
-            Startup.Init<TestDocument>("http://localhost");
-            Startup.Init<TestDocumentWithId>("http://localhost");
+            //Startup.Container.Clear();
+            ////Startup.InitContainer();
+            //Startup.Init<TestDocument>("http://localhost");
+            //Startup.Init<TestDocumentWithId>("http://localhost");
         }
 
         [Test]

@@ -17,7 +17,7 @@
 #endregion
 
 using System;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Commands;
 using SolrNet.Tests.Mocks;
 using SolrNet.Utils;
@@ -35,7 +35,7 @@ namespace SolrNet.Tests {
                     KV.Create("literal.id", parameters.Id),
                     KV.Create("resource.name", parameters.ResourceName),
                 };
-                Assert.AreElementsEqualIgnoringOrder(p, kvs);
+                CollectionAssert.AreEquivalent(p, kvs);
                 return "";
             };
             var cmd = new ExtractCommand(parameters);
@@ -68,7 +68,7 @@ namespace SolrNet.Tests {
                     KV.Create("lowernames", "true")
                 };
 
-                Assert.AreElementsEqualIgnoringOrder(p, kvs);
+                CollectionAssert.AreEquivalent(p, kvs);
                 return "";
             };
 

@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+﻿using NUnit.Framework;
 using SolrNet.Impl.FacetQuerySerializers;
 using SolrNet.Utils;
 
@@ -15,8 +15,8 @@ namespace SolrNet.Tests {
             };
 
             var r = serializer.Serialize(q);
-            Assert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
-            Assert.Contains(r, KV.Create("facet.pivot.mincount", "1"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot.mincount", "1"));
         }
 
         [Test]
@@ -26,9 +26,9 @@ namespace SolrNet.Tests {
             };
 
             var r = serializer.Serialize(q);
-            Assert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
             foreach (var kvPair in r) {
-                Assert.DoesNotContain(kvPair.Key, "facet.pivot.mincount");
+                CollectionAssert.DoesNotContain(kvPair.Key, "facet.pivot.mincount");
             }
         }
 
@@ -40,9 +40,9 @@ namespace SolrNet.Tests {
             };
 
             var r = serializer.Serialize(q);
-            Assert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
-            Assert.Contains(r, KV.Create("facet.pivot", "inStock,cat"));
-            Assert.Contains(r, KV.Create("facet.pivot.mincount", "1"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot", "manu_exact,inStock"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot", "inStock,cat"));
+            CollectionAssert.Contains(r, KV.Create("facet.pivot.mincount", "1"));
         }
     }
 }

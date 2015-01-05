@@ -20,7 +20,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading;
 using Castle.MicroKernel.Registration;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace SolrNet.Tests.Utils {
     [TestFixture]

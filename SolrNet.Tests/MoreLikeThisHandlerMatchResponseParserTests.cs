@@ -1,4 +1,4 @@
-﻿using MbUnit.Framework;
+﻿using NUnit.Framework;
 using SolrNet.Impl;
 using SolrNet.Impl.DocumentPropertyVisitors;
 using SolrNet.Impl.FieldParsers;

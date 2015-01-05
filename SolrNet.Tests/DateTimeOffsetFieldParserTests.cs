@@ -15,23 +15,21 @@
 #endregion
 
 using System;
+using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 using System.Xml.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Impl.FieldParsers;
 using SolrNet.Impl.FieldSerializers;
 using SolrNet.Utils;
 
 namespace SolrNet.Tests {
     public class DateTimeOffsetFieldParserTests {
-        [StaticTestFactory]
-        public static IEnumerable<Test> ParseYears() {
-            return parsedDates.Select(pd => {
-                var name = "ParseYears " + pd.Key;
-                Test t = new TestCase(name, () => Assert.AreEqual(pd.Value, DateTimeOffsetFieldParser.Parse(pd.Key)));
-                return t;
-            });
+
+        [Test, TestCaseSource("parsedDates")]
+        public static void ParseYearsTest(KeyValuePair<string, DateTimeOffset> pd) {
+            Assert.AreEqual(pd.Value, DateTimeOffsetFieldParser.Parse(pd.Key));
         }
 
         private static readonly IEnumerable<KeyValuePair<string, DateTimeOffset>> parsedDates =
@@ -43,31 +41,24 @@ namespace SolrNet.Tests {
                 KV.Create("2012-05-10T14:17:23.6Z", new DateTimeOffset(new DateTime(2012, 5, 10, 14, 17, 23, 600), TimeSpan.Zero)),
             };
 
-        [StaticTestFactory]
-        public static IEnumerable<Test> RoundTrip() {
-            return dateTimes.Select(dt => {
-                Test t = new TestCase("RoundTrip " + dt, () => {
-                    var value = DateTimeOffsetFieldParser.Parse(DateTimeOffsetFieldSerializer.Serialize(dt));
-                    Assert.AreEqual(dt, value);
-                });
-                return t;
-            });
+        [Test, TestCaseSource("dateTimes")]
+        public void RoundTrip(DateTimeOffset dt) {
+            
+            var value = DateTimeOffsetFieldParser.Parse(DateTimeOffsetFieldSerializer.Serialize(dt));
+            Assert.AreEqual(dt, value);
+             
         }
 
-        [StaticTestFactory]
-        public static IEnumerable<Test> NullableRoundTrips() {
+        [Test, TestCaseSource("dateTimes")]
+        public void NullableRoundTrips(DateTimeOffset dt) {
             var parser = new NullableFieldParser(new DateTimeOffsetFieldParser());
             var serializer = new NullableFieldSerializer(new DateTimeOffsetFieldSerializer());
-            return dateTimes.Select(dt => {
-                Test t = new TestCase("NullableRoundTrips " + dt, () => {
-                    var s = serializer.Serialize(dt).First().FieldValue;
-                    var xml = new XDocument();
-                    xml.Add(new XElement("date", s));
-                    var value = (DateTimeOffset?)parser.Parse(xml.Root, typeof(DateTimeOffset?));
-                    Assert.AreEqual(dt, value);
-                });
-                return t;
-            });
+            
+            var s = serializer.Serialize(dt).First().FieldValue;
+            var xml = new XDocument();
+            xml.Add(new XElement("date", s));
+            var value = (DateTimeOffset?)parser.Parse(xml.Root, typeof(DateTimeOffset?));
+            Assert.AreEqual(dt, value);
         }
 
         private static readonly IEnumerable<DateTimeOffset> dateTimes =

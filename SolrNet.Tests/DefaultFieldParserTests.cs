@@ -16,36 +16,36 @@
 
 using System;
 using System.Xml.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Impl.FieldParsers;
 
 namespace SolrNet.Tests {
     [TestFixture]
     public class DefaultFieldParserTests {
         [Test]
-        [Row("str")]
-        [Row("bool")]
-        [Row("int")]
-        [Row("date")]
+        [TestCase("str")]
+        [TestCase("bool")]
+        [TestCase("int")]
+        [TestCase("date")]
         public void CanHandleSolrTypes(string solrType) {
             var p = new DefaultFieldParser();
             Assert.IsTrue(p.CanHandleSolrType(solrType));
         }
 
         [Test]
-        [Row(typeof(float))]
-        [Row(typeof(float?))]
-        [Row(typeof(double))]
-        [Row(typeof(double?))]
-        [Row(typeof(string))]
-        [Row(typeof(DateTime))]
-        [Row(typeof(DateTime?))]
-        [Row(typeof(DateTimeOffset))]
-        [Row(typeof(DateTimeOffset?))]
-        [Row(typeof(bool))]
-        [Row(typeof(bool?))]
-        [Row(typeof(Money))]
-        [Row(typeof(Location))]
+        [TestCase(typeof(float))]
+        [TestCase(typeof(float?))]
+        [TestCase(typeof(double))]
+        [TestCase(typeof(double?))]
+        [TestCase(typeof(string))]
+        [TestCase(typeof(DateTime))]
+        [TestCase(typeof(DateTime?))]
+        [TestCase(typeof(DateTimeOffset))]
+        [TestCase(typeof(DateTimeOffset?))]
+        [TestCase(typeof(bool))]
+        [TestCase(typeof(bool?))]
+        [TestCase(typeof(Money))]
+        [TestCase(typeof(Location))]
         public void CanHandleType(Type t) {
             var p = new DefaultFieldParser();
             Assert.IsTrue(p.CanHandleType(t));
@@ -69,7 +69,7 @@ namespace SolrNet.Tests {
             doc.Add(new XElement("str", "31.2,-44.2"));
             var p = new DefaultFieldParser();
             var l = p.Parse(doc.Root, typeof(Location));
-            Assert.IsInstanceOfType<Location>(l);
+            Assert.IsInstanceOf<Location>(l);
         }
     }
 }

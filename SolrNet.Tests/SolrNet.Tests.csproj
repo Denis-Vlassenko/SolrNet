@@ -1,4 +1,4 @@
-<?xml version="1.0" encoding="utf-8"?>
+﻿<?xml version="1.0" encoding="utf-8"?>
 <Project DefaultTargets="Build" xmlns="http://schemas.microsoft.com/developer/msbuild/2003" ToolsVersion="4.0">
   <PropertyGroup>
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
@@ -61,22 +61,13 @@
     <Reference Include="Castle.Windsor">
       <HintPath>..\packages\Castle.Windsor.3.2.0\lib\net35\Castle.Windsor.dll</HintPath>
     </Reference>
-    <Reference Include="Gallio, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Gallio.dll</HintPath>
-    </Reference>
     <Reference Include="log4net">
       <Name>log4net</Name>
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\lib\log4net.dll</HintPath>
     </Reference>
-    <Reference Include="MbUnit, Version=3.2.0.0, Culture=neutral, PublicKeyToken=eb9cfa67ee6ab36e, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\MbUnit.dll</HintPath>
-    </Reference>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
+    <Reference Include="nunit.framework">
+      <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
     <Reference Include="System" />
     <Reference Include="System.Configuration" />
@@ -104,7 +95,6 @@
     <Compile Include="CollapseResponseParserTests.cs" />
     <Compile Include="CollectionFieldSerializerTests.cs" />
     <Compile Include="CommitCommandTests.cs" />
-    <Compile Include="CommonServiceLocatorTests.cs" />
     <Compile Include="DateTimeFieldParserTests.cs" />
     <Compile Include="GenericDictionaryFieldSerializerTests.cs" />
     <Compile Include="InferringFieldParserTests.cs" />
@@ -115,7 +105,6 @@
     <Compile Include="HttpTests.cs" />
     <Compile Include="Integration.Sample\Product.cs" />
     <Compile Include="Integration.Sample\ProductLoose.cs" />
-    <Compile Include="IntegrationTests.cs" />
     <Compile Include="LocalParamsTests.cs" />
     <Compile Include="MappedPropertiesIsInSolrSchemaRuleTests.cs" />
     <Compile Include="MappingManagerTests.cs" />
@@ -126,7 +115,6 @@
     <Compile Include="Mocks\HttpWebRequestFactory.cs" />
     <Compile Include="Mocks\HttpWebResponse.cs" />
     <Compile Include="Mocks\MMappingValidator.cs" />
-    <Compile Include="Mocks\MServiceLocator.cs" />
     <Compile Include="Mocks\MServiceProvider.cs" />
     <Compile Include="Mocks\MSolrMoreLikeThisHandlerQueryResultsParser.cs" />
     <Compile Include="Mocks\MSolrOperations.cs" />
@@ -147,7 +135,6 @@
     <Compile Include="OptimizeCommandTests.cs" />
     <Compile Include="RegularDocumentVisitorTests.cs" />
     <Compile Include="RequiredFieldsAreMappedRuleTests.cs" />
-    <Compile Include="ServiceLocatorTestCase.cs" />
     <Compile Include="SolrCoreReplicationTests.cs" />
     <Compile Include="SolrDIHStatusParserTest.cs" />
     <Compile Include="SolrDictionarySerializerTests.cs" />
@@ -197,10 +184,6 @@
     <Compile Include="TypeHelperTests.cs" />
   </ItemGroup>
   <ItemGroup>
-    <ProjectReference Include="..\Castle.Facilities.SolrNetIntegration\Castle.Facilities.SolrNetIntegration.csproj">
-      <Project>{0F21F5B6-5986-4301-B0F7-FD9800DB8091}</Project>
-      <Name>Castle.Facilities.SolrNetIntegration</Name>
-    </ProjectReference>
     <ProjectReference Include="..\HttpWebAdapters\HttpWebAdapters.csproj">
       <Project>{AE7D2A46-3F67-4986-B04B-7DCE79A549A5}</Project>
       <Name>HttpWebAdapters</Name>

@@ -16,7 +16,7 @@
 
 using System;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Exceptions;
 using SolrNet.Mapping;
 
@@ -170,7 +170,7 @@ namespace SolrNet.Tests {
             mgr.Add(typeof(Entity).GetProperty("Id"), "id");
             var types = mgr.GetRegisteredTypes();
             Assert.AreEqual(1, types.Count);
-            Assert.Contains(types, typeof(Entity));
+            Assert.Contains(typeof(Entity), types.ToArray());
         }
 
     }

@@ -18,7 +18,7 @@
 
 using System;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Mapping;
 using SolrNet.Mapping.Validation;
 using SolrNet.Mapping.Validation.Rules;

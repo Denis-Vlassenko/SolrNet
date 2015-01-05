@@ -16,7 +16,7 @@
 
 using System;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
 using Moroco;
 using SolrNet.Attributes;
 using SolrNet.Commands;
@@ -177,16 +177,16 @@ namespace SolrNet.Tests {
             var xml = cmd.ConvertToXml();
             xml = SolrDocumentSerializer<object>.RemoveControlCharacters(xml);
             //Console.WriteLine(xml);
-            Assert.DoesNotContain(xml, "&#x7;");
-            Assert.DoesNotContain(xml, "&#x1;");
-            Assert.DoesNotContain(xml, "&#x1F;");
-            Assert.DoesNotContain(xml, "&#xFFFE;");
+            Assert.False(xml.Contains("&#x7;"));
+            Assert.False(xml.Contains( "&#x1;"));
+            Assert.False(xml.Contains( "&#x1F;"));
+            Assert.False(xml.Contains( "&#xFFFE;"));
         }
 
         [Test]
         public void RemoveControlCharacters() {
             var xml = SolrDocumentSerializer<object>.RemoveControlCharacters("control " + (char)1);
-            Assert.DoesNotContain(xml, (char)1);
+            Assert.False(xml.Contains(((char) 1).ToString()));
         }
 	}
 }

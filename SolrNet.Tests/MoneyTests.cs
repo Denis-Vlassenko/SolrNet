@@ -1,11 +1,12 @@
 ﻿using System;
 using System.Collections.Generic;
-using MbUnit.Framework;
+using NUnit.Framework;
+
 using SolrNet.Impl.FieldParsers;
 
 namespace SolrNet.Tests {
-    public static class MoneyTests {
-        [StaticTestFactory]
+    public static class MoneyTests {/*
+        [Factory]
         public static IEnumerable<Test> Tests() {
             var moneys = new[] {
                 new { money = new Money(12, null), toString = "12", },
@@ -15,7 +16,7 @@ namespace SolrNet.Tests {
 
             foreach (var m in moneys) {
                 var x = m;
-                yield return new TestCase("ToString " + x.toString, 
+                yield return new Test("ToString " + x.toString, 
                     () => Assert.AreEqual(x.toString, x.money.ToString()));
 
                 yield return new TestCase("Parse " + x.toString, () => {
@@ -25,6 +26,6 @@ namespace SolrNet.Tests {
                 });
             }
 
-        }
+        }*/
     }
 }

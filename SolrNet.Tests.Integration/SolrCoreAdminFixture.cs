@@ -1,6 +1,6 @@
 ﻿using System;
 using System.Configuration;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Commands.Cores;
 using SolrNet.Impl;
 using SolrNet.Impl.ResponseParsers;

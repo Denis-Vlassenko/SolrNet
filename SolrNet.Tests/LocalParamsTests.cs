@@ -18,7 +18,7 @@
 
 using System.Collections.Generic;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Exceptions;
 using SolrNet.Impl.FieldSerializers;
 using SolrNet.Impl.QuerySerializers;
@@ -46,14 +46,13 @@ namespace SolrNet.Tests {
                 }, "{!type=spatial a='1 2 \\'3'}"),
             };
 
-        [StaticTestFactory]
-        public static IEnumerable<Test> Tests() {
-            return testParams.Select(dv => {
+        [Test, TestCaseSource("testParams")]
+        public static void Tests(KeyValuePair<Dictionary<string, string>, string> dv ) {
+            
                 var expectedResult = dv.Value;
                 var localParams = dv.Key;
-                Test t = new TestCase(expectedResult, () => Assert.AreEqual(expectedResult, new LocalParams(localParams).ToString()));
-                return t;
-            });
+                Assert.AreEqual(expectedResult, new LocalParams(localParams).ToString());
+          
         }
 
         public string SerializeQuery(object q) {

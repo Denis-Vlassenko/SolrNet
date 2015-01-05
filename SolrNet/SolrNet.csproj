@@ -70,10 +70,6 @@
     </AssemblyOriginatorKeyFile>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Microsoft.Practices.ServiceLocation, Version=1.0.0.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
-      <SpecificVersion>False</SpecificVersion>
-      <HintPath>..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
-    </Reference>
     <Reference Include="System" />
     <Reference Include="System.configuration" />
     <Reference Include="System.Data" />
@@ -195,6 +191,7 @@
     <Compile Include="SolrMoreLikeThisHandlerQuery.cs" />
     <Compile Include="SolrMoreLikeThisHandlerStreamBodyQuery.cs" />
     <Compile Include="SolrMoreLikeThisHandlerStreamUrlQuery.cs" />
+    <Compile Include="SolrNet.cs" />
     <Compile Include="SolrQueryByDistance.cs" />
     <Compile Include="SolrDIHStatus.cs" />
     <Compile Include="Impl\SolrDIHStatusParser.cs" />
@@ -365,9 +362,7 @@
     <Compile Include="Impl\SolrServer.cs" />
     <Compile Include="SortOrder.cs" />
     <Compile Include="StartOrCursor.cs" />
-    <Compile Include="Startup.cs" />
     <Compile Include="StatsResult.cs" />
-    <Compile Include="Utils\Container.cs" />
     <Compile Include="Exceptions\InvalidURLException.cs" />
     <Compile Include="ISolrConnection.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
@@ -376,7 +371,6 @@
     <Compile Include="Exceptions\SolrNetException.cs" />
     <Compile Include="Utils\HttpEncoder.cs" />
     <Compile Include="Utils\HttpUtility.cs" />
-    <Compile Include="Utils\IContainer.cs" />
     <Compile Include="Utils\KV.cs" />
     <Compile Include="Utils\Memoizer.cs" />
     <Compile Include="Utils\TypeHelper.cs" />

@@ -15,7 +15,8 @@
 #endregion
 
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
+
 using SolrNet.Commands.Parameters;
 
 namespace SolrNet.Tests {

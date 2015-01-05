@@ -18,7 +18,7 @@
 
 using System;
 using System.Linq;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Mapping;
 using SolrNet.Mapping.Validation;
 using SolrNet.Mapping.Validation.Rules;
@@ -72,7 +72,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual(1, validations.Count);
             foreach (var v in validations)
                 Console.WriteLine("{0}: {1}", v.GetType(), v.Message);
-            Assert.IsInstanceOfType<ValidationError>(validations[0]);
+            Assert.IsInstanceOf<ValidationError>(validations[0]);
         }
 
         [Test]
@@ -84,7 +84,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual(1, validations.Count);
             foreach (var v in validations)
                 Console.WriteLine("{0}: {1}", v.GetType(), v.Message);
-            Assert.IsInstanceOfType<ValidationWarning>(validations[0]);
+            Assert.IsInstanceOf<ValidationWarning>(validations[0]);
         }
 
         [Test]

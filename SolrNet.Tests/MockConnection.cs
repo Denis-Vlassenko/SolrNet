@@ -18,7 +18,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
-using MbUnit.Framework;
+using NUnit.Framework;
 
 namespace SolrNet.Tests {
     public class MockConnection : ISolrConnection {

@@ -21,7 +21,7 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using System.Xml.XPath;
-using MbUnit.Framework;
+using NUnit.Framework;
 using SolrNet.Attributes;
 using SolrNet.Impl;
 using SolrNet.Impl.DocumentPropertyVisitors;
@@ -29,7 +29,6 @@ using SolrNet.Impl.FieldParsers;
 using SolrNet.Impl.ResponseParsers;
 using SolrNet.Mapping;
 using SolrNet.Tests.Utils;
-using Castle.Facilities.SolrNetIntegration;
 
 namespace SolrNet.Tests {
 	[TestFixture]
@@ -369,7 +368,7 @@ namespace SolrNet.Tests {
 		[Ignore("Performance test, potentially slow")]
 		public void Performance() {
 		    var container = new ProfilingContainer();
-            container.AddFacility("solr", new SolrNetFacility("http://localhost"));
+            //container.AddFacility("solr", new SolrNetFacility("http://localhost"));
             ProfileTest(container);
 		}
 
@@ -428,7 +427,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual("features", kv.First().Key);
             Assert.AreEqual(1, kv.First().Value.Count);
             //Console.WriteLine(kv.First().Value.First());
-            Assert.Like(kv.First().Value.First(), "Noise");
+            StringAssert.Contains("Noise", kv.First().Value.First());
         }
 
 		[Test]
@@ -442,7 +441,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual("features", fieldsWithSnippets.First().Key);
 		    var snippets = highlights["SP2514N"].Snippets["features"];
             Assert.AreEqual(1, snippets.Count);
-            Assert.Like(snippets.First(), "Noise");
+            StringAssert.Contains("Noise",snippets.First());
 		}
 
         [Test]
@@ -472,7 +471,7 @@ namespace SolrNet.Tests {
             Assert.AreEqual(0, highlights["e4420cc2"].Count);
             Assert.AreEqual(1, highlights["e442c4cd"].Count);
             Assert.AreEqual(1, highlights["e442c4cd"]["bodytext"].Count);
-            Assert.Contains(highlights["e442c4cd"]["bodytext"].First(), "Garia lancerer");
+            StringAssert.Contains("Garia lancerer", highlights["e442c4cd"]["bodytext"].First());
         }
         
         [Test]
@@ -632,8 +631,8 @@ namespace SolrNet.Tests {
             var stats = parser.ParseStats(xml.Root, "stats_fields");
 
             Assert.IsNotNull(stats);
-            Assert.Contains(stats.Keys, "instock_prices");
-            Assert.Contains(stats.Keys, "all_prices");
+            CollectionAssert.Contains(stats.Keys, "instock_prices");
+            CollectionAssert.Contains(stats.Keys, "all_prices");
 
             var instock = stats["instock_prices"];
             Assert.AreEqual(0, instock.Min);
