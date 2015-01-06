@@ -1,1 +1,1 @@
-java -DzkRun -Dbootstrap_confdir=./solr/shard1/conf -Dcollection.configName=myconf -DnumShards=2 -jar start.jar
+java -DzkRun -Dbootstrap_confdir=./solr/shard1_replica1/conf -Dcollection.configName=myconf -DnumShards=2 -jar start.jar
