@@ -127,6 +127,8 @@ namespace SolrNet.Impl {
             return schemaParser.Parse(schema);
         }
 
+
+        // Move to collections API
         public SolrClusterStatus GetClusterStatus()
         {
             string clusterStatusXml = connection.Get("/../admin/collections", new[] { new KeyValuePair<string, string>("action", "CLUSTERSTATUS") });

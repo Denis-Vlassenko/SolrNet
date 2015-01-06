@@ -8,6 +8,7 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud
 {
+    // rename to SolrCloudServer?
     public class SolrCloudOperations<T>
         : ISolrCloudOperations<T> {
 
