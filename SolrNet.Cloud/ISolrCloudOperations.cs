@@ -1,6 +1,4 @@
-﻿namespace SolrNet.Cloud
-{
-    public interface ISolrCloudOperations<T>
-        : ISolrOperations<T> {
+﻿namespace SolrNet.Cloud {
+    public interface ISolrCloudOperations<T> : ISolrOperations<T> {
     }
 }

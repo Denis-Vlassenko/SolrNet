@@ -8,30 +8,30 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud
 {
-    // rename to SolrCloudServer?
-    public class SolrCloudOperations<T>
-        : ISolrCloudOperations<T> {
+    public class SolrClusterOperations<T> : ISolrClusterOperations<T> {
 
-        public SolrCloudOperations(ISolrCloud cloud, Func<ISolrCloudNode, ISolrOperations<T>> resolveMethod) {
-            this.cloud = cloud;
-            this.resolveMethod = resolveMethod;
+        public SolrClusterOperations(OperationsBuilder builder, ISolrClusterState state) {
+            if (builder == null) throw new ArgumentNullException("builder");
+            if (state == null) throw new ArgumentNullException("state");
+            this.builder = builder;
+            this.state = state;
         }
 
-        private readonly ISolrCloud cloud;
+        public delegate ISolrOperations<T> OperationsBuilder(ISolrClusterState state, bool leader);
 
-        private readonly Func<ISolrCloudNode, ISolrOperations<T>> resolveMethod;
+        private readonly OperationsBuilder builder;
+
+        private readonly ISolrClusterState state;
 
         private TResult Perform<TResult>(Func<ISolrOperations<T>,  TResult> operation, bool leader = false) {
-            var nodes = leader ? cloud.Leaders : cloud.Replicas;
-            foreach (var node in nodes)
-            {
-                try {
-                    return operation(resolveMethod(node));
-                } catch (Exception exception) {
-                    // todo: deactivate node when not 403, 404, 500, 503
-                }
+            try {
+                var operations = builder(state, leader);
+                if (operations == null) throw new ApplicationException("No appropriate replica was selected to perform this operation.");
+                return operation(operations);
+            } catch (Exception exception) {
+                // todo: deactivate node when not 403, 404, 500, 503
+                throw;
             }
-            throw new ApplicationException("No appropriate node found to perform this operation.");
         }
 
         public SolrQueryResults<T> Query(ISolrQuery query, QueryOptions options) {
