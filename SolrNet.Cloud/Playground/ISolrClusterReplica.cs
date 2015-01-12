@@ -5,5 +5,6 @@
         bool IsLeader { get; }
         string Name { get; }
         string NodeName { get; }
+        string State { get; }
     }
 }

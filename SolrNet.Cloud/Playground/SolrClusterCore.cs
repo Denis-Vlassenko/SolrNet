@@ -1,13 +1,16 @@
-﻿using Newtonsoft.Json;
+﻿using Newtonsoft.Json.Linq;
+using SolrNet.Cloud.Playground;
 
 namespace SolrNet.Cloud
 {
     public class SolrClusterCore : ISolrClusterCore {
-        [JsonProperty("name")]
+        public SolrClusterCore(JProperty json) {
+            Name = json.Name;
+            Router = new SolrClusterRouter(json.Value["router"] as JObject);
+            Shards = new SolrClusterShards(json.Value["shards"] as JObject);
+        }
         public string Name { get; private set; }
-        [JsonProperty("shards")]
-        public ISolrClusterShards Shards { get; private set; }
-        [JsonProperty("router")]
         public ISolrClusterRouter Router { get; private set; }
+        public ISolrClusterShards Shards { get; private set; }
     }
 }
