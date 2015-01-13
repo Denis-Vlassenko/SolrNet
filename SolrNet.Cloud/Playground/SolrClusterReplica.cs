@@ -10,14 +10,23 @@ namespace SolrNet.Cloud.Playground {
             Name = json.Name;
             NodeName = (string) json.Value["node_name"];
             State = (string) json.Value["state"];
-            IsActive = SolrClusterStateParser.IsActive(State);
+            IsActive = "active".Equals(State, StringComparison.OrdinalIgnoreCase);
         }
 
         public string BaseUrl { get; private set; }
+
         public bool IsActive { get; private set; }
+
         public bool IsLeader { get; private set; }
+
         public string Name { get; private set; }
+
         public string NodeName { get; private set; }
+
         public string State { get; private set; }
+
+        public void Deactivate() {
+            IsActive = false;
+        }
     }
 }

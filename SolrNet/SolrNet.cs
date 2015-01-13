@@ -53,12 +53,11 @@ namespace SolrNet
                 documentSerializer = new SolrDocumentSerializer<T>(mapper, fieldSerializer);
 
             ISolrSchemaParser schemaParser = new SolrSchemaParser();
-            ISolrClusterStatusParser clusterStatusParser = new SolrClusterStatusParser();
             ISolrHeaderResponseParser headerParser = new HeaderResponseParser<T>();
             ISolrDIHStatusParser dihStatusParser = new SolrDIHStatusParser();
             ISolrExtractResponseParser extractResponseParser = new ExtractResponseParser(headerParser);
 
-            ISolrBasicOperations<T> basicServer = new SolrBasicServer<T>(connection, executor, documentSerializer, schemaParser, clusterStatusParser, headerParser, querySerializer, dihStatusParser, extractResponseParser);
+            ISolrBasicOperations<T> basicServer = new SolrBasicServer<T>(connection, executor, documentSerializer, schemaParser, headerParser, querySerializer, dihStatusParser, extractResponseParser);
 
             return basicServer;
         }

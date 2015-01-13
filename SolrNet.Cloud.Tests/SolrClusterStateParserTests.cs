@@ -16,26 +16,26 @@ namespace SolrNet.Cloud.Tests
 
         [Test]
         public void EmptyJsonDoesNotThrow() {
-            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(EmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterBase.ParseJson(EmptyJson));
         }
 
         [Test]
         public void EmptyJsonProducesEmptyResult()
         {
-            var result = SolrClusterStateParser.ParseJson(EmptyJson);
+            var result = SolrClusterBase.ParseJson(EmptyJson);
             Assert.False(result.Any());
         }
 
         [Test]
         public void NotEmptyJsonDoesNotThrow()
         {
-            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(NotEmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterBase.ParseJson(NotEmptyJson));
         }
 
         [Test]
         public void NotEmptyJsonProducesNotEmptyResult()
         {
-            var result = SolrClusterStateParser.ParseJson(NotEmptyJson);
+            var result = SolrClusterBase.ParseJson(NotEmptyJson);
             Assert.True(result.Any());
             Assert.True(result.First().Shards.Any());
             Assert.True(result.First().Shards.First().Replicas.Any());

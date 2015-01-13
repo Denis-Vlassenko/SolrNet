@@ -80,7 +80,6 @@
   <ItemGroup>
     <Compile Include="AbstractSolrQuery.cs" />
     <Compile Include="ClusterResults.cs" />
-    <Compile Include="ClusterStatus\ISolrClusterStatusParser.cs" />
     <Compile Include="ClusterStatus\SolrCluster.cs" />
     <Compile Include="ClusterStatus\SolrClusterStatusParser.cs" />
     <Compile Include="ClusterStatus\SolrCollection.cs" />

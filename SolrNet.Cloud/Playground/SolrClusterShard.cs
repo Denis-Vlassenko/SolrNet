@@ -1,4 +1,5 @@
-﻿using Newtonsoft.Json.Linq;
+﻿using System;
+using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud.Playground
 {
@@ -8,7 +9,7 @@ namespace SolrNet.Cloud.Playground
             Range = (string) json.Value["range"];
             Replicas = new SolrClusterReplicas(json.Value["replicas"] as JObject);
             State = (string)json.Value["state"];
-            IsActive = SolrClusterStateParser.IsActive(State);
+            IsActive = "active".Equals(State, StringComparison.OrdinalIgnoreCase);
         }
 
         public bool IsActive { get; private set; }

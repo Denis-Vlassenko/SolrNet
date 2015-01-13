@@ -32,19 +32,17 @@ namespace SolrNet.Impl {
         private readonly ISolrQueryExecuter<T> queryExecuter;
         private readonly ISolrDocumentSerializer<T> documentSerializer;
         private readonly ISolrSchemaParser schemaParser;
-        private readonly ISolrClusterStatusParser clusterStatusParser;
         private readonly ISolrHeaderResponseParser headerParser;
         private readonly ISolrQuerySerializer querySerializer;
         private readonly ISolrDIHStatusParser dihStatusParser;
         private readonly ISolrExtractResponseParser extractResponseParser;
 
-        public SolrBasicServer(ISolrConnection connection, ISolrQueryExecuter<T> queryExecuter, ISolrDocumentSerializer<T> documentSerializer, ISolrSchemaParser schemaParser,  ISolrClusterStatusParser clusterStatusParser, ISolrHeaderResponseParser headerParser, ISolrQuerySerializer querySerializer, ISolrDIHStatusParser dihStatusParser, ISolrExtractResponseParser extractResponseParser) {
+        public SolrBasicServer(ISolrConnection connection, ISolrQueryExecuter<T> queryExecuter, ISolrDocumentSerializer<T> documentSerializer, ISolrSchemaParser schemaParser,  ISolrHeaderResponseParser headerParser, ISolrQuerySerializer querySerializer, ISolrDIHStatusParser dihStatusParser, ISolrExtractResponseParser extractResponseParser) {
             this.connection = connection;
             this.extractResponseParser = extractResponseParser;
             this.queryExecuter = queryExecuter;
             this.documentSerializer = documentSerializer;
             this.schemaParser = schemaParser;
-            this.clusterStatusParser = clusterStatusParser;
             this.headerParser = headerParser;
             this.querySerializer = querySerializer;
             this.dihStatusParser = dihStatusParser;
@@ -133,7 +131,7 @@ namespace SolrNet.Impl {
         {
             string clusterStatusXml = connection.Get("/../admin/collections", new[] { new KeyValuePair<string, string>("action", "CLUSTERSTATUS") });
             var clusterStatus = XDocument.Parse(clusterStatusXml);
-            return clusterStatusParser.Parse(clusterStatus);
+            return SolrClusterStatusParser.Parse(clusterStatus);
         }
 
         public SolrDIHStatus GetDIHStatus(KeyValuePair<string, string> options) {

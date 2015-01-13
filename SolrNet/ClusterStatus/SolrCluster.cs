@@ -20,17 +20,20 @@ using System.Collections.Generic;
 
 namespace SolrNet.ClusterStatus {
     /// <summary>
-    /// Represents a Solr cluster status.
+    /// Represents status of a Solr cluster.
     /// </summary>
     public class SolrClusterStatus {
-        public SolrClusterStatus(){
-            SolrCollections = new List<SolrCollection>();
+        /// <summary>
+        /// Intializes new instance of the <see cref="SolrClusterStatus"/> class.
+        /// </summary>
+        /// <param name="collections">List of collections.</param>
+        public SolrClusterStatus(IList<SolrCollection> collections) {
+            SolrCollections = collections;
         }
 
         /// <summary>
-        /// Gets or sets the solr cluster collections.
+        /// Gets list of collections in this cluster.
         /// </summary>
-        /// <value>The solr cluster collections.</value>
-        public IList<SolrCollection> SolrCollections { get; set; }
+        public IList<SolrCollection> SolrCollections { get; private set; }
     }
 }

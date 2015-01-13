@@ -12,12 +12,15 @@ namespace SolrNet.Cloud.Playground
                 var replica = new SolrClusterReplica(property);
                 base.Add(replica.Name, replica);
             }
-            Active = base.Values.Where(replica => replica.IsActive).ToArray();
-            Leaders = base.Values.Where(replica => replica.IsLeader).ToArray();
         }
 
-        public IEnumerable<ISolrClusterReplica> Active { get; private set; }
-        public IEnumerable<ISolrClusterReplica> Leaders { get; private set; }
+        public IEnumerable<ISolrClusterReplica> Active {
+            get { return base.Values.Where(replica => replica.IsActive); }
+        }
+
+        public IEnumerable<ISolrClusterReplica> Leaders {
+            get { return base.Values.Where(replica => replica.IsLeader); }
+        }
 
         IEnumerator<ISolrClusterReplica> IEnumerable<ISolrClusterReplica>.GetEnumerator()
         {

@@ -50,20 +50,41 @@
     <Reference Include="System.Data" />
     <Reference Include="System.Xml" />
     <Reference Include="ZooKeeperNet">
-      <HintPath>..\packages\ZooKeeper.Net.3.4.6.0\lib\net40\ZooKeeperNet.dll</HintPath>
+      <HintPath>..\packages\ZooKeeperNet.1.0.0.0\lib\net40\ZooKeeperNet.dll</HintPath>
+      <Private>True</Private>
     </Reference>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="ClusterState.cs" />
+    <Compile Include="ISolrCloudOperations.cs" />
+    <Compile Include="Playground\ISolrClusterCore.cs" />
+    <Compile Include="Playground\ISolrClusterCores.cs" />
+    <Compile Include="Playground\ISolrOperationsProvider.cs" />
+    <Compile Include="Playground\ISolrClusterReplica.cs" />
+    <Compile Include="Playground\ISolrClusterReplicas.cs" />
+    <Compile Include="Playground\ISolrClusterRouter.cs" />
+    <Compile Include="Playground\ISolrClusterShard.cs" />
+    <Compile Include="Playground\ISolrClusterShards.cs" />
+    <Compile Include="Playground\ISolrCluster.cs" />
+    <Compile Include="Playground\ISolrClusterBalancer.cs" />
+    <Compile Include="Playground\SolrClusterBalancerBase.cs" />
+    <Compile Include="Playground\SolrClusterCore.cs" />
+    <Compile Include="Playground\SolrClusterCores.cs" />
+    <Compile Include="Playground\SolrClusterRandomBalancer.cs" />
+    <Compile Include="Playground\SolrClusterReplica.cs" />
+    <Compile Include="Playground\SolrClusterReplicas.cs" />
+    <Compile Include="Playground\SolrClusterRouter.cs" />
+    <Compile Include="Playground\SolrClusterShard.cs" />
+    <Compile Include="Playground\SolrClusterShards.cs" />
+    <Compile Include="Playground\SolrClusterBase.cs" />
     <Compile Include="SolrCloudServer2.cs" />
     <Compile Include="ISolrCloud.cs" />
     <Compile Include="ISolrCloudNode.cs" />
-    <Compile Include="ISolrCloudOperations.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolrCloud.cs" />
     <Compile Include="SolrCloudNode.cs" />
-    <Compile Include="SolrCloudOperations.cs" />
+    <Compile Include="Playground\SolrClusterOperations.cs" />
     <Compile Include="ZkStateReader.cs" />
   </ItemGroup>
   <ItemGroup>
