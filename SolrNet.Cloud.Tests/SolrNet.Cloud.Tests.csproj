@@ -45,7 +45,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CloudServerTests.cs" />
-    <Compile Include="SolrClusterStateParserTests.cs" />
+    <Compile Include="SolrClusterCoresTests.cs" />
     <Compile Include="ZooKeeperClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

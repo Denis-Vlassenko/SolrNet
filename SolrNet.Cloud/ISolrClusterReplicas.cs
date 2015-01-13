@@ -2,9 +2,10 @@
 
 namespace SolrNet.Cloud {
     public interface ISolrClusterReplicas : IEnumerable<ISolrClusterReplica> {
+        ISolrClusterReplica this[int index] { get; }
 
-        IEnumerable<ISolrClusterReplica> Active { get; }
+        int Count { get; }
 
-        IEnumerable<ISolrClusterReplica> Leaders { get; }
+        ISolrClusterReplica Leader { get; }
     }
 }

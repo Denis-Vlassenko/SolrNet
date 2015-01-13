@@ -1,6 +1,5 @@
 ﻿namespace SolrNet.Cloud {
-    public class SolrCloudNode
-        : ISolrCloudNode {
+    public class SolrCloudNode : ISolrCloudNode {
         public SolrCloudNode(string id, string url) {
             this.Id = id;
             this.IsActive = true;

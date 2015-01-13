@@ -1,14 +1,15 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud.Playground
 {
     public class SolrClusterShards : Dictionary<string, ISolrClusterShard>, ISolrClusterShards {
-        public SolrClusterShards(JObject json) {
+        public SolrClusterShards(JObject json) : base(StringComparer.OrdinalIgnoreCase) {
             foreach (var property in json.Properties()) {
                 var shard = new SolrClusterShard(property);
-                base.Add(shard.Name, shard);
+                base.Add(shard.Range, shard);
             }
         }
 

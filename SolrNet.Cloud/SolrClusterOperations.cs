@@ -8,22 +8,33 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud
 {
-    public class SolrClusterOperations<T> : ISolrOperations<T> {
-
-        public SolrClusterOperations(ISolrClusterBalancer balancer, ISolrClusterReplicas replicas)
+    internal class SolrClusterOperations<T> : ISolrOperations<T> {
+        public SolrClusterOperations(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrClusterReplicas usableReplicas)
         {
-            if (balancer == null) throw new ArgumentNullException("balancer");
-            if (replicas == null) throw new ArgumentNullException("replicas");
-            this.balancer = balancer;
-            this.replicas = replicas;
+            this.clusterBalancer = clusterBalancer;
+            this.exceptionHandlers = exceptionHandlers;
+            this.maxAttempts = maxAttempts;
+            this.usableReplicas = usableReplicas;
         }
 
-        private readonly ISolrClusterBalancer balancer;
+        private readonly ISolrClusterBalancer clusterBalancer;
 
-        private readonly ISolrClusterReplicas replicas;
+        private readonly SolrClusterExceptionHandlers exceptionHandlers;
+
+        private readonly int maxAttempts;
+
+        private readonly ISolrClusterReplicas usableReplicas;
 
         private TResult Balance<TResult>(Func<ISolrOperations<T>, TResult> operation, bool write = false) {
-            return balancer.Balance(operation, replicas, write);
+            var attempt = 0;
+            while (attempt++ < maxAttempts) {
+                try {
+                    return clusterBalancer.Balance(operation, usableReplicas, write);
+                } catch (Exception exception) {
+                    exceptionHandlers.Handle(exception);
+                }
+            }
+            throw new ApplicationException("Atempts limit was depleted.");
         }
 
         public SolrQueryResults<T> Query(ISolrQuery query, QueryOptions options) {

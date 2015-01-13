@@ -4,7 +4,7 @@ using NUnit.Framework;
 
 namespace SolrNet.Cloud.Tests
 {
-    public class SolrClusterStateParserTests {
+    public class SolrClusterCoresTests {
         private string EmptyJson {
             get { return File.ReadAllText(@"resources\empty.json"); }
         }
@@ -16,31 +16,30 @@ namespace SolrNet.Cloud.Tests
 
         [Test]
         public void EmptyJsonDoesNotThrow() {
-            Assert.DoesNotThrow(() => SolrClusterBase.ParseJson(EmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterCores.ParseJson(EmptyJson));
         }
 
         [Test]
         public void EmptyJsonProducesEmptyResult()
         {
-            var result = SolrClusterBase.ParseJson(EmptyJson);
+            var result = SolrClusterCores.ParseJson(EmptyJson);
             Assert.False(result.Any());
         }
 
         [Test]
         public void NotEmptyJsonDoesNotThrow()
         {
-            Assert.DoesNotThrow(() => SolrClusterBase.ParseJson(NotEmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterCores.ParseJson(NotEmptyJson));
         }
 
         [Test]
         public void NotEmptyJsonProducesNotEmptyResult()
         {
-            var result = SolrClusterBase.ParseJson(NotEmptyJson);
+            var result = SolrClusterCores.ParseJson(NotEmptyJson);
             Assert.True(result.Any());
             Assert.True(result.First().Shards.Any());
             Assert.True(result.First().Shards.First().Replicas.Any());
-            Assert.True(result.First().Shards.First().Replicas.Active.Any());
-            Assert.True(result.First().Shards.First().Replicas.Leaders.Any());
+            Assert.True(result.First().Shards.First().Replicas.Leader != null);
         }
     }
 }

@@ -5,7 +5,7 @@
     <Configuration Condition=" '$(Configuration)' == '' ">Debug</Configuration>
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{BDA98C34-3B00-4B1F-B850-9C776FEDE8E3}</ProjectGuid>
-    <OutputType>Exe</OutputType>
+    <OutputType>Library</OutputType>
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SolrNet.Cloud</RootNamespace>
     <AssemblyName>SolrNet.Cloud</AssemblyName>
@@ -35,6 +35,9 @@
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
+  <PropertyGroup>
+    <StartupObject />
+  </PropertyGroup>
   <ItemGroup>
     <Reference Include="log4net">
       <HintPath>..\packages\log4net.2.0.3\lib\net40-full\log4net.dll</HintPath>
@@ -55,40 +58,41 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ClusterState.cs" />
-    <Compile Include="ISolrCloudOperations.cs" />
-    <Compile Include="Playground\ISolrClusterCore.cs" />
-    <Compile Include="Playground\ISolrClusterCores.cs" />
-    <Compile Include="Playground\ISolrOperationsProvider.cs" />
-    <Compile Include="Playground\ISolrClusterReplica.cs" />
-    <Compile Include="Playground\ISolrClusterReplicas.cs" />
-    <Compile Include="Playground\ISolrClusterRouter.cs" />
-    <Compile Include="Playground\ISolrClusterShard.cs" />
-    <Compile Include="Playground\ISolrClusterShards.cs" />
-    <Compile Include="Playground\ISolrCluster.cs" />
-    <Compile Include="Playground\ISolrClusterBalancer.cs" />
-    <Compile Include="Playground\SolrClusterBalancerBase.cs" />
-    <Compile Include="Playground\SolrClusterCore.cs" />
-    <Compile Include="Playground\SolrClusterCores.cs" />
-    <Compile Include="Playground\SolrClusterRandomBalancer.cs" />
-    <Compile Include="Playground\SolrClusterReplica.cs" />
-    <Compile Include="Playground\SolrClusterReplicas.cs" />
-    <Compile Include="Playground\SolrClusterRouter.cs" />
-    <Compile Include="Playground\SolrClusterShard.cs" />
-    <Compile Include="Playground\SolrClusterShards.cs" />
-    <Compile Include="Playground\SolrClusterBase.cs" />
-    <Compile Include="SolrCloudServer2.cs" />
-    <Compile Include="ISolrCloud.cs" />
-    <Compile Include="ISolrCloudNode.cs" />
-    <Compile Include="Program.cs" />
+    <Compile Include="Garbage\ClusterState.cs" />
+    <Compile Include="Garbage\ISolrCloudOperations.cs" />
+    <Compile Include="ISolrClusterCore.cs" />
+    <Compile Include="ISolrClusterCores.cs" />
+    <Compile Include="ISolrOperationsProvider.cs" />
+    <Compile Include="ISolrClusterReplica.cs" />
+    <Compile Include="ISolrClusterReplicas.cs" />
+    <Compile Include="ISolrClusterRouter.cs" />
+    <Compile Include="ISolrClusterShard.cs" />
+    <Compile Include="ISolrClusterShards.cs" />
+    <Compile Include="ISolrCluster.cs" />
+    <Compile Include="ISolrClusterBalancer.cs" />
+    <Compile Include="SolrClusterBalancerBase.cs" />
+    <Compile Include="SolrClusterCore.cs" />
+    <Compile Include="SolrClusterCores.cs" />
+    <Compile Include="SolrClusterExceptionEventArgs.cs" />
+    <Compile Include="SolrClusterExceptionHandlers.cs" />
+    <Compile Include="SolrClusterRandomBalancer.cs" />
+    <Compile Include="SolrClusterReplica.cs" />
+    <Compile Include="SolrClusterReplicas.cs" />
+    <Compile Include="SolrClusterRouter.cs" />
+    <Compile Include="SolrClusterShard.cs" />
+    <Compile Include="SolrClusterShards.cs" />
+    <Compile Include="SolrCluster.cs" />
+    <Compile Include="Garbage\SolrCloudServer2.cs" />
+    <Compile Include="Garbage\ISolrCloud.cs" />
+    <Compile Include="Garbage\ISolrCloudNode.cs" />
+    <Compile Include="Garbage\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="SolrCloud.cs" />
-    <Compile Include="SolrCloudNode.cs" />
-    <Compile Include="Playground\SolrClusterOperations.cs" />
-    <Compile Include="ZkStateReader.cs" />
+    <Compile Include="Garbage\SolrCloud.cs" />
+    <Compile Include="Garbage\SolrCloudNode.cs" />
+    <Compile Include="SolrClusterOperations.cs" />
+    <Compile Include="Garbage\ZkStateReader.cs" />
   </ItemGroup>
   <ItemGroup>
-    <None Include="App.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

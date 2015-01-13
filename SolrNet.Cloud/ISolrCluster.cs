@@ -7,5 +7,7 @@ namespace SolrNet.Cloud {
         ISolrOperations<T> GetOperations<T>(string coreName, string shardRange = null);
 
         bool Initialize();
+
+        event EventHandler<SolrClusterExceptionEventArgs> Exception;
     }
 }
