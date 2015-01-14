@@ -1,7 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Diagnostics;
-using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Impl;
 using SolrNet.Mapping.Validation;
@@ -62,10 +61,6 @@ namespace SolrNet.Cloud {
 
         public SolrSchema GetSchema(string schemaFileName) {
             return Balance(operations => operations.GetSchema(schemaFileName));
-        }
-
-        public SolrClusterStatus GetClusterStatus() {
-            return Balance(operations => operations.GetClusterStatus());
         }
 
         public SolrDIHStatus GetDIHStatus(KeyValuePair<string, string> options) {
