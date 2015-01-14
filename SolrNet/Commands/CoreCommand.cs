@@ -13,7 +13,7 @@ namespace SolrNet.Commands {
         /// <param name="connection">The SolrConnection to use.</param>
         /// <returns>The results of the Command.</returns>
         public string Execute(ISolrConnection connection) {
-            return connection.Get("/admin/cores", Parameters.ToArray());
+            return connection.Get("", Parameters.ToArray());
         }
 
         /// <summary>

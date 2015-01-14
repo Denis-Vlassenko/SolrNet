@@ -96,8 +96,6 @@
     <Compile Include="Commands\Cores\CreateCommand.cs" />
     <Compile Include="Commands\Cores\LoadCommand.cs" />
     <Compile Include="Commands\Cores\MergeCommand.cs" />
-    <Compile Include="Commands\Cores\ReloadCommand.cs" />
-    <Compile Include="Commands\Cores\RenameCommand.cs" />
     <Compile Include="Commands\Cores\StatusCommand.cs" />
     <Compile Include="Commands\Cores\SwapCommand.cs" />
     <Compile Include="Commands\Cores\UnloadCommand.cs" />

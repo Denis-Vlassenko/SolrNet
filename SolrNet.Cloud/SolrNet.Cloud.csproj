@@ -58,6 +58,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionsAdmin\SolrCollectionsAdmin.cs" />
+    <Compile Include="CollectionsAdmin\ISolrCollectionsAdmin.cs" />
     <Compile Include="ISolrClusterCollection.cs" />
     <Compile Include="ISolrClusterCollections.cs" />
     <Compile Include="ISolrClusterReplica.cs" />

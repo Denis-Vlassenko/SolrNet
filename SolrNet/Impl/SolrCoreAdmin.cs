@@ -9,17 +9,15 @@ namespace SolrNet.Impl {
     /// Solr core administration commands.
     /// </summary>
     /// <seealso href="http://wiki.apache.org/solr/CoreAdmin"/>
-    public class SolrCoreAdmin : ISolrCoreAdmin {
-        private readonly ISolrConnection connection;
-        private readonly ISolrHeaderResponseParser headerParser;
+    public class SolrCoreAdmin : LowLevelSolr, ISolrCoreAdmin {
         private readonly ISolrStatusResponseParser resultParser;
 
+        private const string coreHandler = "/admin/cores";
         /// <summary>
         /// Initializes a new instance of the <see cref="SolrCoreAdmin"/> class.
         /// </summary>
-        public SolrCoreAdmin(ISolrConnection connection, ISolrHeaderResponseParser headerParser, ISolrStatusResponseParser resultParser) {
-            this.connection = connection;
-            this.headerParser = headerParser;
+        public SolrCoreAdmin(ISolrConnection connection, ISolrHeaderResponseParser headerParser, ISolrStatusResponseParser resultParser)
+        :base (connection, headerParser) {
             this.resultParser = resultParser;
         }
 
@@ -75,7 +73,9 @@ namespace SolrNet.Impl {
         /// </summary>
         /// <param name="coreName">The name of the core to be reloaded.</param>
         public ResponseHeader Reload(string coreName) {
-            return SendAndParseHeader(new ReloadCommand(coreName));
+            return SendAndParseHeader(coreHandler, new SolrParams()
+                .AddOptional("action", "RELOAD")
+                .AddOptional("core", coreName));
         }
 
         /// <summary>
@@ -86,7 +86,10 @@ namespace SolrNet.Impl {
         /// "true", the new name will be written to solr.xml as the "name" attribute
         /// of the &lt;core&gt; attribute.</param>
         public ResponseHeader Rename(string coreName, string otherName) {
-            return SendAndParseHeader(new RenameCommand(coreName, otherName));
+            return SendAndParseHeader(coreHandler, new SolrParams()
+                .AddOptional("action", "RENAME")
+                .AddOptional("core", coreName)
+                .AddOptional("other", otherName));
         }
 
         /// <summary>
@@ -178,26 +181,6 @@ namespace SolrNet.Impl {
         }
 
         /// <summary>
-        /// Sends a command and parses the ResponseHeader.
-        /// </summary>
-        /// <param name="cmd">The CMD.</param>
-        /// <returns></returns>
-        public ResponseHeader SendAndParseHeader(ISolrCommand cmd) {
-            var r = Send(cmd);
-            var xml = XDocument.Parse(r);
-            return headerParser.Parse(xml);
-        }
-
-        /// <summary>
-        /// Sends the specified Command to Solr.
-        /// </summary>
-        /// <param name="command">The Command to send.</param>
-        /// <returns></returns>
-        public string Send(ISolrCommand command) {
-            return command.Execute(connection);
-        }
-
-        /// <summary>
         /// Parses the status response.
         /// </summary>
         /// <param name="responseXml">The response XML.</param>
@@ -207,4 +190,25 @@ namespace SolrNet.Impl {
             return resultParser.Parse( xml );
         }
     }
+
+     public class SolrParams : List<KeyValuePair<string, string>> {
+        public SolrParams AddOptional(string key, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+                Add(new KeyValuePair<string, string>(key, value));
+
+            return this;
+        }
+
+        public SolrParams AddRequired(string key, string value)
+        {
+            if (!string.IsNullOrEmpty(value))
+                Add(new KeyValuePair<string, string>(key, value));
+            else
+                throw new Exception("Parameter " + key + " is required");
+
+            return this;
+        }
+    }
+
 }

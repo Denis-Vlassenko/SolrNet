@@ -5,20 +5,20 @@ using ZooKeeperNet;
 
 namespace SolrNet.Cloud {
     public class SolrCluster : ISolrCluster, IWatcher {
-        public SolrCluster(ISolrClusterBalancer clusterBalancer, int maxAttempts, ISolrOperationsProvider operationsProvider, string zooKeeperConnection) {
-            if (maxAttempts < 1)
-                throw new ArgumentOutOfRangeException("maxAttempts");
-            if (clusterBalancer == null)
-                throw new ArgumentNullException("clusterBalancer");
-            if (operationsProvider == null)
-                throw new ArgumentNullException("operationsProvider");
+        public SolrCluster(string zooKeeperConnection, string collectionName, ISolrClusterBalancer clusterBalancer = null, int maxAttempts = 1) {
+            
+            this.clusterBalancer = clusterBalancer ?? new SolrClusterRandomBalancer();
+            
+            
             if (string.IsNullOrEmpty(zooKeeperConnection))
                 throw new ArgumentNullException("zooKeeperConnection");
+
             this.maxAttempts = maxAttempts;
             this.clusterBalancer = clusterBalancer;
-            this.operationsProvider = operationsProvider;
             this.zooKeeperConnection = zooKeeperConnection;
             exceptionHandlers = new SolrClusterExceptionHandlers(this);
+            operationsProvider = new SolrOperationsProvider();
+
             syncLock = new object();
         }
 

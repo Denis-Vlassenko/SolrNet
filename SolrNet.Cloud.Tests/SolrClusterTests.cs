@@ -10,12 +10,10 @@ namespace SolrNet.Cloud.Tests
         public void AddRemoveTest()
         {
             const string CoreName = "myconf";
-            const int MaxAttempts = 1;
             const int DocumentCount = 1000;
             const string ZkHostAddress = "10.26.11.30:9983";
-            var balancer = new SolrClusterRandomBalancer();
-            var provider = new SolrOperationsProvider();
-            using (var cluster = new SolrCluster(balancer, MaxAttempts, provider, ZkHostAddress)) {
+
+            using (var cluster = new SolrCluster(ZkHostAddress, "myconf")) {
                 Debug.Assert(cluster.Initialize());
                 var operations = cluster.GetOperations<TestEntity>(CoreName);
                 operations.Delete(SolrQuery.All);

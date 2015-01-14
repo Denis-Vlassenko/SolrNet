@@ -51,6 +51,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="CollectionsAdminTests.cs" />
     <Compile Include="SolrClusterTests.cs" />
     <Compile Include="SolrClusterStateParserTests.cs" />
     <Compile Include="TestEntity.cs" />
