@@ -17,7 +17,6 @@
 using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
-using SolrNet.ClusterStatus;
 using SolrNet.Commands;
 using SolrNet.Commands.Parameters;
 using SolrNet.Schema;
@@ -37,7 +36,7 @@ namespace SolrNet.Impl {
         private readonly ISolrDIHStatusParser dihStatusParser;
         private readonly ISolrExtractResponseParser extractResponseParser;
 
-        public SolrBasicServer(ISolrConnection connection, ISolrQueryExecuter<T> queryExecuter, ISolrDocumentSerializer<T> documentSerializer, ISolrSchemaParser schemaParser,  ISolrHeaderResponseParser headerParser, ISolrQuerySerializer querySerializer, ISolrDIHStatusParser dihStatusParser, ISolrExtractResponseParser extractResponseParser) {
+        public SolrBasicServer(ISolrConnection connection, ISolrQueryExecuter<T> queryExecuter, ISolrDocumentSerializer<T> documentSerializer, ISolrSchemaParser schemaParser, ISolrHeaderResponseParser headerParser, ISolrQuerySerializer querySerializer, ISolrDIHStatusParser dihStatusParser, ISolrExtractResponseParser extractResponseParser) {
             this.connection = connection;
             this.extractResponseParser = extractResponseParser;
             this.queryExecuter = queryExecuter;
@@ -123,15 +122,6 @@ namespace SolrNet.Impl {
             string schemaXml = connection.Get("/admin/file", new[] { new KeyValuePair<string, string>("file", schemaFileName) });
             var schema = XDocument.Parse(schemaXml);
             return schemaParser.Parse(schema);
-        }
-
-
-        // Move to collections API
-        public SolrClusterStatus GetClusterStatus()
-        {
-            string clusterStatusXml = connection.Get("/../admin/collections", new[] { new KeyValuePair<string, string>("action", "CLUSTERSTATUS") });
-            var clusterStatus = XDocument.Parse(clusterStatusXml);
-            return SolrClusterStatusParser.Parse(clusterStatus);
         }
 
         public SolrDIHStatus GetDIHStatus(KeyValuePair<string, string> options) {
