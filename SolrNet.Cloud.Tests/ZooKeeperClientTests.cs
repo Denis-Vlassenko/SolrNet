@@ -5,7 +5,6 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using NUnit.Framework;
-using SolrNet.Attributes;
 
 namespace SolrNet.Cloud.Tests
 {
@@ -64,18 +63,5 @@ namespace SolrNet.Cloud.Tests
 
             // var results = solr.Query(SolrQuery.All);
         }
-
-
-        
-
-
-    }
-
-
-    public class TestEntity {
-        [SolrField("id")]
-        public string Id { get; set; }
-        [SolrField("name")]
-        public string Name { get; set; }
     }
 }

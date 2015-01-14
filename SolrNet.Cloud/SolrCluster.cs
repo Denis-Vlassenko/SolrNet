@@ -78,7 +78,6 @@ namespace SolrNet.Cloud {
         public bool Initialize() {
             lock (syncLock)
                 if (!isInitialized) {
-                    Update();
                     isInitialized = Update();
                 }
             return isInitialized;

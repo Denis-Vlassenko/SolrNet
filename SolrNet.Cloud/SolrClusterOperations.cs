@@ -27,10 +27,10 @@ namespace SolrNet.Cloud {
 
         private readonly ISolrClusterReplicas usableReplicas;
 
-        private TResult Balance<TResult>(Func<ISolrOperations<T>, TResult> operation, bool write = false) {
+        private TResult Balance<TResult>(Func<ISolrOperations<T>, TResult> operation, bool leader = false) {
             var attempt = 0;
             while (attempt++ < maxAttempts) {
-                var replica = clusterBalancer.Balance(usableReplicas, write);
+                var replica = clusterBalancer.Balance(usableReplicas, leader);
                 if (replica == null)
                     throw new ApplicationException("No appropriate replica was selected to perform the operation.");
                 var operations = operationsProvider.GetOperations<T>(replica.Url);

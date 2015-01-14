@@ -53,6 +53,7 @@
   <ItemGroup>
     <Compile Include="SolrClusterTests.cs" />
     <Compile Include="SolrClusterStateParserTests.cs" />
+    <Compile Include="TestEntity.cs" />
     <Compile Include="ZooKeeperClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

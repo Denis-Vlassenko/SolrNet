@@ -41,7 +41,7 @@ namespace SolrNet.Cloud
                 Shard = shard,
                 State = state,
                 IsActive = IsActive(state),
-                Url = baseUrl + @"\" + shard.Collection.Name
+                Url = baseUrl + "/" + shard.Collection.Name
             };
         }
 
