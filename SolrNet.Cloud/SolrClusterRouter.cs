@@ -1,14 +1,7 @@
-﻿using Newtonsoft.Json.Linq;
-
-namespace SolrNet.Cloud {
+﻿namespace SolrNet.Cloud {
     public class SolrClusterRouter : ISolrClusterRouter {
-        public SolrClusterRouter(ISolrClusterCore core, JObject json) {
-            Core = core;
-            Name = (string) json["name"];
-        }
+        public ISolrClusterCollection Collection { get; set; }
 
-        public ISolrClusterCore Core { get; private set; }
-
-        public string Name { get; private set; }
+        public string Name { get; set; }
     }
 }

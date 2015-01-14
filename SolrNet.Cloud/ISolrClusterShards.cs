@@ -6,10 +6,10 @@ namespace SolrNet.Cloud {
 
         ISolrClusterShard this[int hash] { get; }
 
-        ISolrClusterCore Core { get; }
+        ISolrClusterCollection Collection { get; }
 
         int Count { get; }
 
-        ISolrClusterShard Default { get; }
+        ISolrClusterShard First { get; }
     }
 }

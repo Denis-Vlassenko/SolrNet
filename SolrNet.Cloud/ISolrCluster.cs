@@ -2,7 +2,7 @@
 
 namespace SolrNet.Cloud {
     public interface ISolrCluster : IDisposable {
-        ISolrClusterCores Cores { get; }
+        ISolrClusterCollections Collections { get; }
 
         ISolrOperations<T> GetOperations<T>(string coreName, int routingHash);
 

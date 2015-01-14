@@ -1,23 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
-using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud {
     public class SolrClusterShards : Dictionary<string, ISolrClusterShard>, ISolrClusterShards {
-        public SolrClusterShards(ISolrClusterCore core, JObject json) : base(StringComparer.OrdinalIgnoreCase) {
-            Core = core;
-            foreach (var property in json.Properties()) {
-                var shard = new SolrClusterShard(core, property);
-                if (Count == 0)
-                    Default = shard;
-                Add(shard.Name, shard);
-            }
-        }
+        public SolrClusterShards() : base(StringComparer.OrdinalIgnoreCase) { }
 
         ISolrClusterShard ISolrClusterShards.this[string name] {
             get {
                 if (name == null)
-                    return Default;
+                    return First;
                 ISolrClusterShard shard;
                 TryGetValue(name, out shard);
                 return shard;
@@ -33,8 +24,8 @@ namespace SolrNet.Cloud {
             }
         }
 
-        public ISolrClusterCore Core { get; private set; }
+        public ISolrClusterCollection Collection { get; set; }
 
-        public ISolrClusterShard Default { get; private set; }
+        public ISolrClusterShard First { get; set; }
     }
 }

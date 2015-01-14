@@ -1,4 +1,5 @@
 ﻿using System;
+using System.Collections.Generic;
 using System.Management.Instrumentation;
 using System.Text;
 using ZooKeeperNet;
@@ -40,12 +41,12 @@ namespace SolrNet.Cloud {
 
         private readonly string zooKeeperConnection;
 
-        public ISolrClusterCores Cores { get; protected set; }
+        public ISolrClusterCollections Collections { get; private set; }
 
         public void Dispose() {
             lock (syncLock)
                 if (!isDisposed) {
-
+                    zooKeeper.Dispose();
                     isDisposed = true;
                 }
         }
@@ -53,7 +54,7 @@ namespace SolrNet.Cloud {
         public ISolrOperations<T> GetOperations<T>(string coreName, int routingHash) {
             if (!isInitialized)
                 throw new InvalidOperationException("This object was not initialized yet.");
-            var core = Cores[coreName];
+            var core = Collections[coreName];
             if (core == null)
                 throw new InstanceNotFoundException("No appropriate core was found.");
             var shard = core.Shards[routingHash];
@@ -65,7 +66,7 @@ namespace SolrNet.Cloud {
         public ISolrOperations<T> GetOperations<T>(string coreName = null, string shardName = null) {
             if (!isInitialized)
                 throw new InvalidOperationException("This object was not initialized yet.");
-            var core = Cores[coreName];
+            var core = Collections[coreName];
             if (core == null)
                 throw new InstanceNotFoundException("No appropriate core was found.");
             var shard = core.Shards[shardName];
@@ -85,13 +86,15 @@ namespace SolrNet.Cloud {
 
         void IWatcher.Process(WatchedEvent @event) {
             if (@event.Type == EventType.NodeDataChanged)
-                Update();
+                lock (syncLock) 
+                    Update();
         }
 
         private bool Update() {
             try {
-                zooKeeper = new ZooKeeper(zooKeeperConnection, TimeSpan.FromSeconds(10), this);
-                Cores = SolrClusterCores.Create(
+                if (zooKeeper == null)
+                    zooKeeper = new ZooKeeper(zooKeeperConnection, TimeSpan.FromSeconds(10), this);
+                Collections = SolrClusterStateParser.ParseJson(
                     this, 
                     Encoding.Default.GetString(
                         zooKeeper.GetData("/clusterstate.json", true, null)));

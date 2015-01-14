@@ -1,6 +1,6 @@
 ﻿namespace SolrNet.Cloud {
     public interface ISolrClusterShard {
-        ISolrClusterCore Core { get; }
+        ISolrClusterCollection Collection { get; }
 
         bool IsActive { get; }
 

@@ -1,6 +1,6 @@
 ﻿namespace SolrNet.Cloud {
     public interface ISolrClusterRouter {
-        ISolrClusterCore Core { get; }
+        ISolrClusterCollection Collection { get; }
 
         string Name { get; }
     }

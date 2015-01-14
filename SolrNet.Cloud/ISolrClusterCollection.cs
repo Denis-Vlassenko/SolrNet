@@ -1,5 +1,7 @@
-﻿namespace SolrNet.Cloud {
-    public interface ISolrClusterCore {
+﻿using System.Collections.Generic;
+
+namespace SolrNet.Cloud {
+    public interface ISolrClusterCollection {
         string Name { get; }
 
         ISolrCluster Cluster { get; }

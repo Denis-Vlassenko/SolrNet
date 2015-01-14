@@ -15,7 +15,5 @@
         string State { get; }
 
         string Url { get; }
-
-        void Deactivate();
     }
 }

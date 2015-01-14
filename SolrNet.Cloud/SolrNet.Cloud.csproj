@@ -58,8 +58,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="ISolrClusterCore.cs" />
-    <Compile Include="ISolrClusterCores.cs" />
+    <Compile Include="ISolrClusterCollection.cs" />
+    <Compile Include="ISolrClusterCollections.cs" />
     <Compile Include="ISolrClusterReplica.cs" />
     <Compile Include="ISolrClusterReplicas.cs" />
     <Compile Include="ISolrClusterRouter.cs" />
@@ -68,8 +68,8 @@
     <Compile Include="ISolrCluster.cs" />
     <Compile Include="ISolrClusterBalancer.cs" />
     <Compile Include="MurMurHash3.cs" />
-    <Compile Include="SolrClusterCore.cs" />
-    <Compile Include="SolrClusterCores.cs" />
+    <Compile Include="SolrClusterCollection.cs" />
+    <Compile Include="SolrClusterCollections.cs" />
     <Compile Include="SolrClusterExceptionEventArgs.cs" />
     <Compile Include="SolrClusterExceptionHandlers.cs" />
     <Compile Include="SolrClusterRandomBalancer.cs" />
@@ -82,6 +82,7 @@
     <Compile Include="SolrCluster.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolrClusterOperations.cs" />
+    <Compile Include="SolrClusterStateParser.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

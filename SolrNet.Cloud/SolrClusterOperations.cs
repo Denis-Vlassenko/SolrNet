@@ -39,7 +39,7 @@ namespace SolrNet.Cloud {
                 try {
                     return operation(operations);
                 } catch (Exception exception) {
-                    replica.Deactivate(); // todo: deactivate node only when status is not 401, 500
+                    // todo: possibly deactivate zombie node when status is not 401, 500
                     exceptionHandlers.Handle(exception);
                 }
             }
