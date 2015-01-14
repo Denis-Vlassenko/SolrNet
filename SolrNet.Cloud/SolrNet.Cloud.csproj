@@ -58,11 +58,8 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Garbage\ClusterState.cs" />
-    <Compile Include="Garbage\ISolrCloudOperations.cs" />
     <Compile Include="ISolrClusterCore.cs" />
     <Compile Include="ISolrClusterCores.cs" />
-    <Compile Include="ISolrOperationsProvider.cs" />
     <Compile Include="ISolrClusterReplica.cs" />
     <Compile Include="ISolrClusterReplicas.cs" />
     <Compile Include="ISolrClusterRouter.cs" />
@@ -70,6 +67,7 @@
     <Compile Include="ISolrClusterShards.cs" />
     <Compile Include="ISolrCluster.cs" />
     <Compile Include="ISolrClusterBalancer.cs" />
+    <Compile Include="MurMurHash3.cs" />
     <Compile Include="SolrClusterBalancerBase.cs" />
     <Compile Include="SolrClusterCore.cs" />
     <Compile Include="SolrClusterCores.cs" />
@@ -80,17 +78,11 @@
     <Compile Include="SolrClusterReplicas.cs" />
     <Compile Include="SolrClusterRouter.cs" />
     <Compile Include="SolrClusterShard.cs" />
+    <Compile Include="SolrClusterShardRange.cs" />
     <Compile Include="SolrClusterShards.cs" />
     <Compile Include="SolrCluster.cs" />
-    <Compile Include="Garbage\SolrCloudServer2.cs" />
-    <Compile Include="Garbage\ISolrCloud.cs" />
-    <Compile Include="Garbage\ISolrCloudNode.cs" />
-    <Compile Include="Garbage\Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Garbage\SolrCloud.cs" />
-    <Compile Include="Garbage\SolrCloudNode.cs" />
     <Compile Include="SolrClusterOperations.cs" />
-    <Compile Include="Garbage\ZkStateReader.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="packages.config" />

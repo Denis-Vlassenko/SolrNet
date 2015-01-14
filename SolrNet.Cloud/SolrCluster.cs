@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Linq;
 using System.Management.Instrumentation;
 using System.Text;
 using ZooKeeperNet;
@@ -46,13 +45,28 @@ namespace SolrNet.Cloud {
                 }
         }
 
-        public ISolrOperations<T> GetOperations<T>(string coreName, string shardRange = null) {
+        public ISolrOperations<T> GetOperations<T>(string coreName, int? routingHash = null) {
             if (!isInitialized)
                 throw new InvalidOperationException("This object was not initialized yet.");
-            var replicas = Cores[coreName].Shards[shardRange].Replicas;
-            if (replicas == null)
-                throw new InstanceNotFoundException("No appropriate replicas were found.");
-            return new SolrClusterOperations<T>(operationsBalancer, exceptionHandlers, maxAttempts, replicas);
+            var core = Cores[coreName];
+            if (core == null)
+                throw new InstanceNotFoundException("No appropriate core was found.");
+            var shard = core.Shards[routingHash];
+            if (shard == null)
+                throw new InstanceNotFoundException("No appropriate shard was found.");
+            return new SolrClusterOperations<T>(operationsBalancer, exceptionHandlers, maxAttempts, shard.Replicas);
+        }
+
+        public ISolrOperations<T> GetOperations<T>(string coreName = null, string shardName = null) {
+            if (!isInitialized)
+                throw new InvalidOperationException("This object was not initialized yet.");
+            var core = Cores[coreName];
+            if (core == null)
+                throw new InstanceNotFoundException("No appropriate core was found.");
+            var shard = core.Shards[shardName];
+            if (shard == null)
+                throw new InstanceNotFoundException("No appropriate shard was found.");
+            return new SolrClusterOperations<T>(operationsBalancer, exceptionHandlers, maxAttempts, shard.Replicas);
         }
 
         public bool Initialize() {
@@ -72,7 +86,8 @@ namespace SolrNet.Cloud {
         private bool Update() {
             try {
                 zooKeeper = new ZooKeeper(zooKeeperConnection, TimeSpan.FromSeconds(10), this);
-                Cores = SolrClusterCores.ParseJson(
+                Cores = SolrClusterCores.Create(
+                    this, 
                     Encoding.Default.GetString(
                         zooKeeper.GetData("/clusterstate.json", true, null)));
                 return true;

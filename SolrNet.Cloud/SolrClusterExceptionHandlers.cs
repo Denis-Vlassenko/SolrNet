@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SolrNet.Cloud
-{
+namespace SolrNet.Cloud {
     internal class SolrClusterExceptionHandlers {
         public SolrClusterExceptionHandlers(object sender) {
             this.sender = sender;

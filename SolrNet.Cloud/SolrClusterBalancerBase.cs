@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace SolrNet.Cloud.Playground {
+namespace SolrNet.Cloud {
     public abstract class SolrClusterBalancerBase : ISolrClusterBalancer {
         protected SolrClusterBalancerBase(ISolrOperationsProvider provider) {
             if (provider == null)
@@ -14,7 +14,7 @@ namespace SolrNet.Cloud.Playground {
             var replica = leader ? replicas.Leader : SelectReplica(replicas);
             if (replica == null)
                 throw new ApplicationException("No appropriate replica was selected to perform the operation.");
-            var operations = provider.GetOperations<T>(replica);
+            var operations = provider.GetOperations<T>(replica.Url);
             if (operations == null)
                 throw new ApplicationException("Operation provider returned null.");
             try {

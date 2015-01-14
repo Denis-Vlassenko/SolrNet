@@ -1,27 +1,35 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud {
     public class SolrClusterCores : Dictionary<string, ISolrClusterCore>, ISolrClusterCores {
-        private SolrClusterCores(JObject json) : base(StringComparer.OrdinalIgnoreCase) {
+        private SolrClusterCores(ISolrCluster cluster, JObject json) : base(StringComparer.OrdinalIgnoreCase) {
+            Cluster = cluster;
             foreach (var property in json.Properties()) {
-                var core = new SolrClusterCore(property);
-                base.Add(core.Name, core);
+                var core = new SolrClusterCore(cluster, property);
+                if (Count == 0)
+                    Default = core;
+                Add(core.Name, core);
             }
         }
 
-        IEnumerator<ISolrClusterCore> IEnumerable<ISolrClusterCore>.GetEnumerator() {
-            return base.Values.GetEnumerator();
+        ISolrClusterCore ISolrClusterCores.this[string name] {
+            get {
+                if (name == null)
+                    return Default;
+                ISolrClusterCore core;
+                TryGetValue(name, out core);
+                return core;
+            }
         }
 
-        IEnumerator IEnumerable.GetEnumerator() {
-            return GetEnumerator();
-        }
+        public ISolrCluster Cluster { get; private set; }
 
-        public static ISolrClusterCores ParseJson(string json) {
-            return new SolrClusterCores(JObject.Parse(json));
+        public ISolrClusterCore Default { get; private set; }
+
+        public static ISolrClusterCores Create(ISolrCluster cluster, string json) {
+            return new SolrClusterCores(cluster, JObject.Parse(json));
         }
     }
 }

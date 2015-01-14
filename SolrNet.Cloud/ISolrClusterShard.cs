@@ -1,11 +1,12 @@
-﻿namespace SolrNet.Cloud
-{
+﻿namespace SolrNet.Cloud {
     public interface ISolrClusterShard {
+        ISolrClusterCore Core { get; }
+
         bool IsActive { get; }
 
         string Name { get; }
 
-        string Range { get; }
+        SolrClusterShardRange Range { get; }
 
         ISolrClusterReplicas Replicas { get; }
 

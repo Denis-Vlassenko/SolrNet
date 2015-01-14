@@ -1,8 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 
-namespace SolrNet.Cloud.Playground
-{
+namespace SolrNet.Cloud {
     public class SolrClusterRandomBalancer : SolrClusterBalancerBase {
         public SolrClusterRandomBalancer(ISolrOperationsProvider provider) : base(provider) {
             random = new Random();

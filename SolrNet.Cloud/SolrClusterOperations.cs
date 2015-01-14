@@ -6,8 +6,7 @@ using SolrNet.Impl;
 using SolrNet.Mapping.Validation;
 using SolrNet.Schema;
 
-namespace SolrNet.Cloud
-{
+namespace SolrNet.Cloud {
     internal class SolrClusterOperations<T> : ISolrOperations<T> {
         public SolrClusterOperations(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrClusterReplicas usableReplicas)
         {
