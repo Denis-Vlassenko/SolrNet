@@ -13,27 +13,27 @@ namespace SolrNet.Cloud.Tests {
 
         [Test]
         public void EmptyJsonDoesNotThrow() {
-            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(null, EmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(EmptyJson));
         }
 
         [Test]
         public void EmptyJsonProducesEmptyResult() {
-            var cores = SolrClusterStateParser.ParseJson(null, EmptyJson);
+            var cores = SolrClusterStateParser.ParseJson(EmptyJson);
             Assert.False(cores.Count > 0);
         }
 
         [Test]
         public void NotEmptyJsonDoesNotThrow() {
-            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(null, NotEmptyJson));
+            Assert.DoesNotThrow(() => SolrClusterStateParser.ParseJson(NotEmptyJson));
         }
 
         [Test]
         public void NotEmptyJsonProducesNotEmptyResult() {
-            var cores = SolrClusterStateParser.ParseJson(null, NotEmptyJson);
-            Assert.True(cores.Count > 0);
-            Assert.True(cores.First.Shards.Count > 0);
-            Assert.True(cores.First.Shards.First.Replicas.Count > 0);
-            Assert.True(cores.First.Shards.First.Replicas.Leader != null);
+            var collections = SolrClusterStateParser.ParseJson(NotEmptyJson);
+            Assert.True(collections.Count > 0);
+            Assert.True(collections[0].Shards.Count > 0);
+            Assert.True(collections[0].Shards[0].Replicas.Count > 0);
+            Assert.True(collections[0].Shards[0].Replicas.Leader != null);
         }
     }
 }

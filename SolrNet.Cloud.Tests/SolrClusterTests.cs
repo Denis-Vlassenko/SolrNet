@@ -24,8 +24,10 @@ namespace SolrNet.Cloud.Tests
                 foreach (var ent in GenerateTestData(DocumentCount))
                     operations.Add(ent);
                 operations.Commit();
-                var results = operations.Query(SolrQuery.All);
-                Assert.AreEqual(DocumentCount, results.Count, "results count");
+                for (var i = 0; i < DocumentCount; i++) {
+                    var results = operations.Query(SolrQuery.All);
+                    Assert.AreEqual(DocumentCount, results.Count, "results count");
+                }
             }
         }
         

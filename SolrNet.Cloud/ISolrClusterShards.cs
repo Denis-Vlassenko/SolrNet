@@ -1,15 +1,9 @@
 ﻿using System.Collections.Generic;
 
 namespace SolrNet.Cloud {
-    public interface ISolrClusterShards : IEnumerable<KeyValuePair<string, ISolrClusterShard>> {
-        ISolrClusterShard this[string name] { get; }
-
-        ISolrClusterShard this[int hash] { get; }
-
-        ISolrClusterCollection Collection { get; }
+    public interface ISolrClusterShards : IEnumerable<ISolrClusterShard> {
+        ISolrClusterShard this[int index] { get; }
 
         int Count { get; }
-
-        ISolrClusterShard First { get; }
     }
 }

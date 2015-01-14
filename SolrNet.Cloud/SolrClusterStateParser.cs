@@ -1,35 +1,26 @@
 ﻿using System;
+using System.Linq;
 using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud
 {
-    public static class SolrClusterStateParser
-    {
-        private static ISolrClusterCollection BuildCollection(ISolrCluster cluster, JProperty json) {
+    public static class SolrClusterStateParser {
+        private static ISolrClusterCollection BuildCollection(JProperty json) {
             var collection = new SolrClusterCollection {
-                Cluster = cluster,
-                Name = json.Name
+                Name = json.Name,
+                Router = BuildRouter(json.Value["router"] as JObject)
             };
-            collection.Router = BuildRouter(collection, json.Value["router"] as JObject);
             collection.Shards = BuildShards(collection, json.Value["shards"] as JObject);
             return collection;
         }
 
-        private static ISolrClusterCollections BuildCollections(ISolrCluster cluster, JObject json) {
-            var collections = new SolrClusterCollections {
-                Cluster = cluster
-            };
-            foreach (var property in json.Properties())
-            {
-                var core = BuildCollection(cluster, property);
-                if (collections.Count == 0)
-                    collections.First = core;
-                collections.Add(core.Name, core);
-            }
-            return collections;
+        private static ISolrClusterCollections BuildCollections(JObject json) {
+            return new SolrClusterCollections(
+                json.Properties().Select(BuildCollection));
         }
 
-        private static ISolrClusterReplica BuildReplica(ISolrClusterShard shard, JProperty json) {
+        private static ISolrClusterReplica BuildReplica(ISolrClusterCollection collection, JProperty json)
+        {
             var baseUrl = (string) json.Value["base_url"];
             var leader = json.Value["leader"];
             var state = GetState(json);
@@ -38,59 +29,38 @@ namespace SolrNet.Cloud
                 IsLeader = leader != null && (bool) leader,
                 Name = json.Name,
                 NodeName = (string) json.Value["node_name"],
-                Shard = shard,
                 State = state,
                 IsActive = IsActive(state),
-                Url = baseUrl + "/" + shard.Collection.Name
+                Url = baseUrl + "/" + collection.Name
             };
         }
 
-        private static ISolrClusterReplicas BuildReplicas(ISolrClusterShard shard, JObject json) {
-            var replicas = new SolrClusterReplicas();
-            foreach (var property in json.Properties()) {
-                var replica = BuildReplica(shard, property);
-                if (replicas.Count == 0)
-                    replicas.First = replica;
-                if (replica.IsLeader)
-                    replicas.Leader = replica;
-                replicas.Add(replica);
-            }
-            return replicas;
+        private static ISolrClusterReplicas BuildReplicas(ISolrClusterCollection collection, JObject json) {
+            return new SolrClusterReplicas(
+                json.Properties().Select(property => BuildReplica(collection, property)));
         }
 
-        private static ISolrClusterRouter BuildRouter(ISolrClusterCollection collection, JObject json) {
+        private static ISolrClusterRouter BuildRouter(JObject json) {
             return new SolrClusterRouter {
-                Collection = collection,
-                Name = (string)json["name"]
+                Name = (string) json["name"]
             };
         }
 
         private static ISolrClusterShard BuildShard(ISolrClusterCollection collection, JProperty json) {
             var state = GetState(json);
-            var shard = new SolrClusterShard {
-                Collection = collection,
+            return new SolrClusterShard
+            {
                 Name = json.Name,
-                Range = SolrClusterShardRange.Parse((string) json.Value["range"]),
-                
+                Range = SolrClusterShardRange.Parse((string)json.Value["range"]),
                 State = state,
-                IsActive = IsActive(state)
+                IsActive = IsActive(state),
+                Replicas = BuildReplicas(collection, json.Value["replicas"] as JObject)
             };
-            shard.Replicas = BuildReplicas(shard, json.Value["replicas"] as JObject);
-            return shard;
         }
 
         private static ISolrClusterShards BuildShards(ISolrClusterCollection collection, JObject json) {
-            var shards = new SolrClusterShards {
-                Collection = collection
-            };
-            foreach (var property in json.Properties())
-            {
-                var shard = BuildShard(collection, property);
-                if (shards.Count == 0)
-                    shards.First = shard;
-                shards.Add(shard.Name, shard);
-            }
-            return shards;
+            return new SolrClusterShards(
+                json.Properties().Select(property => BuildShard(collection, property)));
         }
 
         private static string GetState(JProperty json) {
@@ -101,9 +71,9 @@ namespace SolrNet.Cloud
             return "active".Equals(state, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static ISolrClusterCollections ParseJson(ISolrCluster cluster, string json)
+        public static ISolrClusterCollections ParseJson(string json)
         {
-            return BuildCollections(cluster, JObject.Parse(json));
+            return BuildCollections(JObject.Parse(json));
         }
     }
 }

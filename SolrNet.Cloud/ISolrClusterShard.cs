@@ -1,12 +1,10 @@
 ﻿namespace SolrNet.Cloud {
     public interface ISolrClusterShard {
-        ISolrClusterCollection Collection { get; }
-
         bool IsActive { get; }
 
         string Name { get; }
 
-        SolrClusterShardRange Range { get; }
+        ISolrClusterShardRange Range { get; }
 
         ISolrClusterReplicas Replicas { get; }
 

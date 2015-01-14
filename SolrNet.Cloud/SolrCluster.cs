@@ -1,6 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Management.Instrumentation;
+using System.Linq;
 using System.Text;
 using ZooKeeperNet;
 
@@ -51,27 +50,12 @@ namespace SolrNet.Cloud {
                 }
         }
 
-        public ISolrOperations<T> GetOperations<T>(string coreName, int routingHash) {
+        public ISolrOperations<T> GetOperations<T>(string collectionName = null, int? routingHash = null) {
             if (!isInitialized)
                 throw new InvalidOperationException("This object was not initialized yet.");
-            var core = Collections[coreName];
-            if (core == null)
-                throw new InstanceNotFoundException("No appropriate core was found.");
-            var shard = core.Shards[routingHash];
+            var shard = Route(collectionName, routingHash);
             if (shard == null)
-                throw new InstanceNotFoundException("No appropriate shard was found.");
-            return new SolrClusterOperations<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
-        }
-
-        public ISolrOperations<T> GetOperations<T>(string coreName = null, string shardName = null) {
-            if (!isInitialized)
-                throw new InvalidOperationException("This object was not initialized yet.");
-            var core = Collections[coreName];
-            if (core == null)
-                throw new InstanceNotFoundException("No appropriate core was found.");
-            var shard = core.Shards[shardName];
-            if (shard == null)
-                throw new InstanceNotFoundException("No appropriate shard was found.");
+                throw new ApplicationException("No appropriate replica was found.");
             return new SolrClusterOperations<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
         }
 
@@ -89,12 +73,20 @@ namespace SolrNet.Cloud {
                     Update();
         }
 
+        private ISolrClusterShard Route(string collectionName = null, int? routingHash = null)
+        {
+            var collection = collectionName == null ? Collections[0] : Collections[collectionName];
+            return routingHash.HasValue
+                ? collection.Shards.FirstOrDefault(
+                    shard => shard.Range.Start <= routingHash && shard.Range.End >= routingHash)
+                : collection.Shards[0];
+        }
+
         private bool Update() {
             try {
                 if (zooKeeper == null)
                     zooKeeper = new ZooKeeper(zooKeeperConnection, TimeSpan.FromSeconds(10), this);
                 Collections = SolrClusterStateParser.ParseJson(
-                    this, 
                     Encoding.Default.GetString(
                         zooKeeper.GetData("/clusterstate.json", true, null)));
                 return true;

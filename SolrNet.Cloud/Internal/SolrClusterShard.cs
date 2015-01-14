@@ -1,12 +1,10 @@
 ﻿namespace SolrNet.Cloud {
-    public class SolrClusterShard : ISolrClusterShard {
-        public ISolrClusterCollection Collection { get; set; }
-
+    internal class SolrClusterShard : ISolrClusterShard {
         public bool IsActive { get; set; }
 
         public string Name { get; set; }
 
-        public SolrClusterShardRange Range { get; set; }
+        public ISolrClusterShardRange Range { get; set; }
 
         public ISolrClusterReplicas Replicas { get; set; }
 
