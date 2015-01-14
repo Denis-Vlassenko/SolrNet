@@ -4,7 +4,7 @@ namespace SolrNet.Cloud {
     public interface ISolrClusterShards : IEnumerable<KeyValuePair<string, ISolrClusterShard>> {
         ISolrClusterShard this[string name] { get; }
 
-        ISolrClusterShard this[int? hash] { get; }
+        ISolrClusterShard this[int hash] { get; }
 
         ISolrClusterCore Core { get; }
 

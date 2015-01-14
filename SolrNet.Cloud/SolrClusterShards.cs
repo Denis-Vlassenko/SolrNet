@@ -24,12 +24,10 @@ namespace SolrNet.Cloud {
             }
         }
 
-        ISolrClusterShard ISolrClusterShards.this[int? hash] {
+        ISolrClusterShard ISolrClusterShards.this[int hash] {
             get {
-                if (!hash.HasValue)
-                    return Default;
                 foreach (var shard in Values)
-                    if (shard.Range.Start <= hash.Value && shard.Range.End >= hash.Value)
+                    if (shard.Range.Start <= hash && shard.Range.End >= hash)
                         return shard;
                 return null;
             }

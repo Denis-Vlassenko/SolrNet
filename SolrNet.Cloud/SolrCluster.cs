@@ -50,7 +50,7 @@ namespace SolrNet.Cloud {
                 }
         }
 
-        public ISolrOperations<T> GetOperations<T>(string coreName, int? routingHash = null) {
+        public ISolrOperations<T> GetOperations<T>(string coreName, int routingHash) {
             if (!isInitialized)
                 throw new InvalidOperationException("This object was not initialized yet.");
             var core = Cores[coreName];
