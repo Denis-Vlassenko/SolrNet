@@ -6,10 +6,6 @@ namespace SolrNet.Cloud {
 
         int Count { get; }
 
-        ISolrClusterReplica First { get; }
-
         ISolrClusterReplica Leader { get; }
-
-        ISolrClusterShard Shard { get; }
     }
 }

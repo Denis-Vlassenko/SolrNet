@@ -1,13 +1,11 @@
 ﻿using System.Collections.Generic;
 
 namespace SolrNet.Cloud {
-    public interface ISolrClusterCollections : IEnumerable<KeyValuePair<string, ISolrClusterCollection>> {
+    public interface ISolrClusterCollections : IEnumerable<ISolrClusterCollection> {
+        ISolrClusterCollection this[int index] { get; }
+
         ISolrClusterCollection this[string name] { get; }
 
-        ISolrCluster Cluster { get; }
-
         int Count { get; }
-
-        ISolrClusterCollection First { get; }
     }
 }

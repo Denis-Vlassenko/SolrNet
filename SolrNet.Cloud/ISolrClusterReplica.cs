@@ -10,8 +10,6 @@
 
         string NodeName { get; }
 
-        ISolrClusterShard Shard { get; }
-
         string State { get; }
 
         string Url { get; }

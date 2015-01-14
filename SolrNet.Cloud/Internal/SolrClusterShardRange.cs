@@ -1,7 +1,7 @@
 ﻿using System.Globalization;
 
 namespace SolrNet.Cloud {
-    public struct SolrClusterShardRange {
+    internal class SolrClusterShardRange : ISolrClusterShardRange {
         public SolrClusterShardRange(int start, int end) {
             this.end = end;
             this.start = start;

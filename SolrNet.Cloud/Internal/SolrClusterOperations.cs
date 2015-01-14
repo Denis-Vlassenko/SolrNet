@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using SolrNet.ClusterStatus;
 using SolrNet.Commands.Parameters;
 using SolrNet.Impl;
@@ -33,6 +34,7 @@ namespace SolrNet.Cloud {
                 var replica = clusterBalancer.Balance(usableReplicas, leader);
                 if (replica == null)
                     throw new ApplicationException("No appropriate replica was selected to perform the operation.");
+                Debug.WriteLine("using replica " + replica.Name);
                 var operations = operationsProvider.GetOperations<T>(replica.Url);
                 if (operations == null)
                     throw new ApplicationException("Operation provider returned null.");
