@@ -2,19 +2,15 @@
 using System.Collections.Generic;
 
 namespace SolrNet.Cloud {
-    public class SolrClusterRandomBalancer : SolrClusterBalancerBase {
-        public SolrClusterRandomBalancer(ISolrOperationsProvider provider) : base(provider) {
-            random = new Random();
-        }
-
-        private readonly Random random;
-
-        protected override ISolrClusterReplica SelectReplica(ISolrClusterReplicas replicas) {
+    public class SolrClusterRandomBalancer : ISolrClusterBalancer {
+        public ISolrClusterReplica Balance(ISolrClusterReplicas replicas, bool leader) {
+            if (leader)
+                return replicas.Leader;
             var probes = new HashSet<int>();
-            while (probes.Count < replicas.Count) {
-                int index;
-                lock (random)
-                    index = random.Next(replicas.Count);
+            var random = new Random();
+            while (probes.Count < replicas.Count)
+            {
+                var index = random.Next(replicas.Count);
                 if (!probes.Add(index))
                     continue;
                 var replica = replicas[index];

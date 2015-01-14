@@ -68,7 +68,6 @@
     <Compile Include="ISolrCluster.cs" />
     <Compile Include="ISolrClusterBalancer.cs" />
     <Compile Include="MurMurHash3.cs" />
-    <Compile Include="SolrClusterBalancerBase.cs" />
     <Compile Include="SolrClusterCore.cs" />
     <Compile Include="SolrClusterCores.cs" />
     <Compile Include="SolrClusterExceptionEventArgs.cs" />

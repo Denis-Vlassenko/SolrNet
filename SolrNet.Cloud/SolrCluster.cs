@@ -5,19 +5,24 @@ using ZooKeeperNet;
 
 namespace SolrNet.Cloud {
     public class SolrCluster : ISolrCluster, IWatcher {
-        public SolrCluster(int maxAttempts, ISolrClusterBalancer operationsBalancer, string zooKeeperConnection) {
+        public SolrCluster(ISolrClusterBalancer clusterBalancer, int maxAttempts, ISolrOperationsProvider operationsProvider, string zooKeeperConnection) {
             if (maxAttempts < 1)
                 throw new ArgumentOutOfRangeException("maxAttempts");
-            if (operationsBalancer == null)
-                throw new ArgumentNullException("operationsBalancer");
+            if (clusterBalancer == null)
+                throw new ArgumentNullException("clusterBalancer");
+            if (operationsProvider == null)
+                throw new ArgumentNullException("operationsProvider");
             if (string.IsNullOrEmpty(zooKeeperConnection))
                 throw new ArgumentNullException("zooKeeperConnection");
             this.maxAttempts = maxAttempts;
-            this.operationsBalancer = operationsBalancer;
+            this.clusterBalancer = clusterBalancer;
+            this.operationsProvider = operationsProvider;
             this.zooKeeperConnection = zooKeeperConnection;
             exceptionHandlers = new SolrClusterExceptionHandlers(this);
             syncLock = new object();
         }
+
+        private readonly ISolrClusterBalancer clusterBalancer;
 
         private bool isDisposed;
 
@@ -27,7 +32,7 @@ namespace SolrNet.Cloud {
 
         private readonly int maxAttempts;
 
-        private readonly ISolrClusterBalancer operationsBalancer;
+        private readonly ISolrOperationsProvider operationsProvider;
 
         private readonly object syncLock;
 
@@ -54,7 +59,7 @@ namespace SolrNet.Cloud {
             var shard = core.Shards[routingHash];
             if (shard == null)
                 throw new InstanceNotFoundException("No appropriate shard was found.");
-            return new SolrClusterOperations<T>(operationsBalancer, exceptionHandlers, maxAttempts, shard.Replicas);
+            return new SolrClusterOperations<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
         }
 
         public ISolrOperations<T> GetOperations<T>(string coreName = null, string shardName = null) {
@@ -66,7 +71,7 @@ namespace SolrNet.Cloud {
             var shard = core.Shards[shardName];
             if (shard == null)
                 throw new InstanceNotFoundException("No appropriate shard was found.");
-            return new SolrClusterOperations<T>(operationsBalancer, exceptionHandlers, maxAttempts, shard.Replicas);
+            return new SolrClusterOperations<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
         }
 
         public bool Initialize() {

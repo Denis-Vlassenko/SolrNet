@@ -1,7 +1,5 @@
-﻿using System;
-
-namespace SolrNet.Cloud {
+﻿namespace SolrNet.Cloud {
     public interface ISolrClusterBalancer {
-        TResult Balance<T, TResult>(Func<ISolrOperations<T>, TResult> operation, ISolrClusterReplicas replicas, bool leader);
+        ISolrClusterReplica Balance(ISolrClusterReplicas replicas, bool leader);
     }
 }

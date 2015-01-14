@@ -8,11 +8,12 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud {
     internal class SolrClusterOperations<T> : ISolrOperations<T> {
-        public SolrClusterOperations(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrClusterReplicas usableReplicas)
+        public SolrClusterOperations(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrOperationsProvider operationsProvider, ISolrClusterReplicas usableReplicas)
         {
             this.clusterBalancer = clusterBalancer;
             this.exceptionHandlers = exceptionHandlers;
             this.maxAttempts = maxAttempts;
+            this.operationsProvider = operationsProvider;
             this.usableReplicas = usableReplicas;
         }
 
@@ -22,14 +23,23 @@ namespace SolrNet.Cloud {
 
         private readonly int maxAttempts;
 
+        private readonly ISolrOperationsProvider operationsProvider;
+
         private readonly ISolrClusterReplicas usableReplicas;
 
         private TResult Balance<TResult>(Func<ISolrOperations<T>, TResult> operation, bool write = false) {
             var attempt = 0;
             while (attempt++ < maxAttempts) {
+                var replica = clusterBalancer.Balance(usableReplicas, write);
+                if (replica == null)
+                    throw new ApplicationException("No appropriate replica was selected to perform the operation.");
+                var operations = operationsProvider.GetOperations<T>(replica.Url);
+                if (operations == null)
+                    throw new ApplicationException("Operation provider returned null.");
                 try {
-                    return clusterBalancer.Balance(operation, usableReplicas, write);
+                    return operation(operations);
                 } catch (Exception exception) {
+                    replica.Deactivate(); // todo: deactivate node only when status is not 401, 500
                     exceptionHandlers.Handle(exception);
                 }
             }
