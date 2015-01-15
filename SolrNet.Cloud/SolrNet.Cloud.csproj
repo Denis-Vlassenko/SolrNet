@@ -72,7 +72,6 @@
     <Compile Include="SolrCloudBasicOperations.cs" />
     <Compile Include="SolrCloudOperationsBase.cs" />
     <Compile Include="SolrCloudState.cs" />
-    <Compile Include="SolrCloudExceptionEventArgs.cs" />
     <Compile Include="SolrCloudNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolrCloudOperations.cs" />
