@@ -4,6 +4,8 @@ using NUnit.Framework;
 using SolrNet.Attributes;
 using SolrNet.Cloud;
 
+using CloudStartup = SolrNet.Cloud.Startup;
+
 namespace SolrNet.Unity.Tests
 {
     public class Test
@@ -18,7 +20,7 @@ namespace SolrNet.Unity.Tests
         [Test]
         public void TestSorlCloud()
         {
-            Startup.Init<TestEntity>("10.26.11.30:9983");
+            CloudStartup.Init<TestEntity>("10.26.11.30:9983");
 
             TestRoutine<ISolrCloudOperations<TestEntity>>();
         }
