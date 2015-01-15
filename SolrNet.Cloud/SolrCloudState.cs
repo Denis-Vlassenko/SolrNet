@@ -23,7 +23,7 @@ namespace SolrNet.Cloud {
 
         private readonly string zooKeeperConnection;
 
-        public IEnumerable<ISolrCloudNode> Nodes { get; private set; }
+        public IEnumerable<SolrCloudNode> Nodes { get; private set; }
 
         public void Dispose() {
             lock (syncLock)

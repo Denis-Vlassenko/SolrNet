@@ -5,6 +5,12 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud
 {
+    public interface ISolrCloudBasicReadOnlyOperations<T> : ISolrBasicReadOnlyOperations<T> {
+    }
+
+    public interface ISolrCloudBasicOperations<T> : ISolrBasicOperations<T>, ISolrCloudBasicReadOnlyOperations<T> {
+    }
+    
     public class SolrCloudBasicOperations<T> : SolrCloudOperationsBase<T>, ISolrCloudBasicOperations<T>
     {
         public SolrCloudBasicOperations(ISolrCloudState cloudState, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudState, operationsProvider, collectionName) {}

@@ -1,5 +1,5 @@
 ﻿namespace SolrNet.Cloud {
-    internal class SolrCloudNode : ISolrCloudNode {
+    public class SolrCloudNode {
         public SolrCloudNode(string collection, bool isActive, bool isLeader, int? rangeEnd, int? rangeStart, string url) {
             Collection = collection;
             IsActive = isActive;

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
 
@@ -39,7 +38,7 @@ namespace SolrNet.Cloud {
             return operation(operations);
         }
 
-        private IList<ISolrCloudNode> SelectNodes(bool leader) {
+        private IList<SolrCloudNode> SelectNodes(bool leader) {
             var nodes = cloudState.Nodes
                 .Where(node => node.IsActive && (!leader || node.IsLeader))
                 .Where(node => collectionName == null || collectionName.Equals(node.Collection, StringComparison.OrdinalIgnoreCase))

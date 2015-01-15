@@ -5,7 +5,7 @@ using Newtonsoft.Json.Linq;
 
 namespace SolrNet.Cloud {
     public static class SolrCloudStateParser {
-        private static ISolrCloudNode BuildNode(string collection, int? rangeEnd, int? rangeStart, JProperty json) {
+        private static SolrCloudNode BuildNode(string collection, int? rangeEnd, int? rangeStart, JProperty json) {
             var baseUrl = (string) json.Value["base_url"];
             var leader = json.Value["leader"];
             var state = (string) json.Value["state"];
@@ -18,7 +18,7 @@ namespace SolrNet.Cloud {
                 baseUrl + "/" + collection);
         }
 
-        public static IEnumerable<ISolrCloudNode> ParseJsonToNodes(string json) {
+        public static IEnumerable<SolrCloudNode> ParseJsonToNodes(string json) {
             foreach (var collection in JObject.Parse(json).Properties()) {
                 foreach (var shard in ((JObject) collection.Value["shards"]).Properties()) {
                     var range = (string) shard.Value["range"];

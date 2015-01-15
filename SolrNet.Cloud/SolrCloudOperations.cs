@@ -5,6 +5,12 @@ using SolrNet.Mapping.Validation;
 using SolrNet.Schema;
 
 namespace SolrNet.Cloud {
+    public interface ISolrCloudOperations<T> : ISolrOperations<T>, ISolrCloudReadOnlyOperations<T> {
+    }
+
+    public interface ISolrCloudReadOnlyOperations<T> : ISolrReadOnlyOperations<T>, ISolrCloudBasicReadOnlyOperations<T> {
+    }
+
     public class SolrCloudOperations<T> : SolrCloudOperationsBase<T>, ISolrCloudOperations<T> {
         public SolrCloudOperations(ISolrCloudState cloudState, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudState, operationsProvider, collectionName) {}
 

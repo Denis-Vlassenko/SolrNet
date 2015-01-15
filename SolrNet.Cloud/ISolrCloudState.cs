@@ -3,7 +3,7 @@ using System.Collections.Generic;
 
 namespace SolrNet.Cloud {
     public interface ISolrCloudState : IDisposable {
-        IEnumerable<ISolrCloudNode> Nodes { get; }
+        IEnumerable<SolrCloudNode> Nodes { get; }
 
         void Init();
     }

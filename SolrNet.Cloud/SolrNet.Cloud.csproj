@@ -62,13 +62,8 @@
   <ItemGroup>
     <Compile Include="CollectionsAdmin\SolrCollectionsAdmin.cs" />
     <Compile Include="CollectionsAdmin\ISolrCollectionsAdmin.cs" />
-    <Compile Include="ISolrCloudBasicOperations.cs" />
-    <Compile Include="ISolrCloudBasicReadOnlyOperations.cs" />
-    <Compile Include="ISolrCloudNode.cs" />
     <Compile Include="ISolrCloudState.cs" />
-    <Compile Include="ISolrCloudOperations.cs" />
     <Compile Include="ISolrOperationsProvider.cs" />
-    <Compile Include="ISolrCloudReadOnlyOperations.cs" />
     <Compile Include="SolrCloudBasicOperations.cs" />
     <Compile Include="SolrCloudOperationsBase.cs" />
     <Compile Include="SolrCloudState.cs" />
