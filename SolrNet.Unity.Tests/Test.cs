@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System.Collections.Generic;
 using Microsoft.Practices.ServiceLocation;
 using NUnit.Framework;
 using SolrNet.Attributes;
-using SolrNet.Utils;
+using SolrNet.Cloud;
 
 namespace SolrNet.Unity.Tests
 {
@@ -16,24 +12,23 @@ namespace SolrNet.Unity.Tests
         public void TestSimple() {
             Startup.Init<TestEntity>("localhost:8983");
 
-            TestRoutine();
+            TestRoutine<ISolrOperations<TestEntity>>();
         }
 
         [Test]
         public void TestSorlCloud()
         {
-            // TODO DENIS - for cloud
-            // probably new init method
-            //Startup.InitCloud<TestEntity>("localhost:9983", "myconf");
+            Startup.Init<TestEntity>("10.26.11.30:9983");
 
-            TestRoutine();
+            TestRoutine<ISolrCloudOperations<TestEntity>>();
         }
     
-        public void TestRoutine()
+        public void TestRoutine<T>()
+            where T : ISolrOperations<TestEntity>
         {
             var num = 1000;
 
-            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<TestEntity>>();
+            var solr = ServiceLocator.Current.GetInstance<T>();
 
             solr.Delete(SolrQuery.All);
             solr.Commit();
