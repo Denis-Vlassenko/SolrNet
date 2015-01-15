@@ -1,8 +1,8 @@
 ﻿using System;
 
 namespace SolrNet.Cloud {
-    public class SolrClusterExceptionEventArgs : EventArgs {
-        public SolrClusterExceptionEventArgs(Exception exception) {
+    public class SolrCloudExceptionEventArgs : EventArgs {
+        public SolrCloudExceptionEventArgs(Exception exception) {
             Exception = exception;
         }
 

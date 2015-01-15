@@ -25,6 +25,7 @@
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Release|AnyCPU' ">
     <PlatformTarget>AnyCPU</PlatformTarget>
@@ -34,6 +35,7 @@
     <DefineConstants>TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
+    <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <PropertyGroup>
     <StartupObject />
@@ -60,36 +62,24 @@
   <ItemGroup>
     <Compile Include="CollectionsAdmin\SolrCollectionsAdmin.cs" />
     <Compile Include="CollectionsAdmin\ISolrCollectionsAdmin.cs" />
-    <Compile Include="ISolrClusterCollection.cs" />
-    <Compile Include="ISolrClusterCollections.cs" />
-    <Compile Include="ISolrClusterReplica.cs" />
-    <Compile Include="ISolrClusterReplicas.cs" />
-    <Compile Include="ISolrClusterRouter.cs" />
-    <Compile Include="ISolrClusterShard.cs" />
-    <Compile Include="ISolrClusterShardRange.cs" />
-    <Compile Include="ISolrClusterShards.cs" />
-    <Compile Include="ISolrCluster.cs" />
-    <Compile Include="ISolrClusterBalancer.cs" />
-    <Compile Include="MurMurHash3.cs" />
-    <Compile Include="SolrClusterBalancerBase.cs" />
-    <Compile Include="Internal\SolrClusterCollection.cs" />
-    <Compile Include="Internal\SolrClusterCollections.cs" />
-    <Compile Include="SolrClusterExceptionEventArgs.cs" />
-    <Compile Include="SolrClusterExceptionHandlers.cs" />
-    <Compile Include="SolrClusterRoundRobinBalancer.cs" />
-    <Compile Include="SolrClusterRandomBalancer.cs" />
-    <Compile Include="Internal\SolrClusterReplica.cs" />
-    <Compile Include="Internal\SolrClusterReplicas.cs" />
-    <Compile Include="Internal\SolrClusterRouter.cs" />
-    <Compile Include="Internal\SolrClusterShard.cs" />
-    <Compile Include="Internal\SolrClusterShardRange.cs" />
-    <Compile Include="Internal\SolrClusterShards.cs" />
-    <Compile Include="SolrCluster.cs" />
+    <Compile Include="ISolrCloudBasicOperations.cs" />
+    <Compile Include="ISolrCloudBasicReadOnlyOperations.cs" />
+    <Compile Include="ISolrCloudNode.cs" />
+    <Compile Include="ISolrCloudState.cs" />
+    <Compile Include="ISolrCloudOperations.cs" />
+    <Compile Include="ISolrOperationsProvider.cs" />
+    <Compile Include="ISolrCloudReadOnlyOperations.cs" />
+    <Compile Include="SolrCloudBasicOperations.cs" />
+    <Compile Include="SolrCloudOperationsBase.cs" />
+    <Compile Include="SolrCloudState.cs" />
+    <Compile Include="SolrCloudExceptionEventArgs.cs" />
+    <Compile Include="SolrCloudNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
-    <Compile Include="Internal\SolrClusterOperations.cs" />
-    <Compile Include="SolrClusterStateParser.cs" />
+    <Compile Include="SolrCloudOperations.cs" />
+    <Compile Include="SolrCloudStateParser.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="app.config" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>

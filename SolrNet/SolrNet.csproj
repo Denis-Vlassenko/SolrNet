@@ -126,7 +126,6 @@
     <Compile Include="Impl\FieldParsers\MoneyFieldParser.cs" />
     <Compile Include="Impl\FieldSerializers\DateTimeOffsetFieldSerializer.cs" />
     <Compile Include="Impl\QuerySerializers\QueryByFieldRegexSerializer.cs" />
-    <Compile Include="ISolrOperationsProvider.cs" />
     <Compile Include="Location.cs" />
     <Compile Include="Money.cs" />
     <Compile Include="ExtractField.cs" />
@@ -185,7 +184,6 @@
     <Compile Include="SolrMoreLikeThisHandlerStreamBodyQuery.cs" />
     <Compile Include="SolrMoreLikeThisHandlerStreamUrlQuery.cs" />
     <Compile Include="SolrNet.cs" />
-    <Compile Include="SolrOperationsProvider.cs" />
     <Compile Include="SolrQueryByDistance.cs" />
     <Compile Include="SolrDIHStatus.cs" />
     <Compile Include="Impl\SolrDIHStatusParser.cs" />
