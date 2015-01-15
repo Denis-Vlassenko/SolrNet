@@ -1,10 +1,11 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace SolrNet.Cloud
-{
-    public static class SolrClusterStateParser {
+namespace SolrNet.Cloud {
+    public static partial class SolrClusterStateParser {
         private static ISolrClusterCollection BuildCollection(JProperty json) {
             var collection = new SolrClusterCollection {
                 Name = json.Name,
@@ -19,8 +20,7 @@ namespace SolrNet.Cloud
                 json.Properties().Select(BuildCollection));
         }
 
-        private static ISolrClusterReplica BuildReplica(ISolrClusterCollection collection, JProperty json)
-        {
+        private static ISolrClusterReplica BuildReplica(ISolrClusterCollection collection, JProperty json) {
             var baseUrl = (string) json.Value["base_url"];
             var leader = json.Value["leader"];
             var state = GetState(json);
@@ -48,10 +48,9 @@ namespace SolrNet.Cloud
 
         private static ISolrClusterShard BuildShard(ISolrClusterCollection collection, JProperty json) {
             var state = GetState(json);
-            return new SolrClusterShard
-            {
+            return new SolrClusterShard {
                 Name = json.Name,
-                Range = SolrClusterShardRange.Parse((string)json.Value["range"]),
+                Range = SolrClusterShardRange.Parse((string) json.Value["range"]),
                 State = state,
                 IsActive = IsActive(state),
                 Replicas = BuildReplicas(collection, json.Value["replicas"] as JObject)
@@ -71,8 +70,7 @@ namespace SolrNet.Cloud
             return "active".Equals(state, StringComparison.OrdinalIgnoreCase);
         }
 
-        public static ISolrClusterCollections ParseJson(string json)
-        {
+        public static ISolrClusterCollections ParseJsonToCollections(string json) {
             return BuildCollections(JObject.Parse(json));
         }
     }

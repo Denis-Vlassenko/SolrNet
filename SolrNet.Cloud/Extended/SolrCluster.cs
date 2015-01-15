@@ -56,7 +56,7 @@ namespace SolrNet.Cloud {
             var shard = Route(collectionName, routingHash);
             if (shard == null)
                 throw new ApplicationException("No appropriate replica was found.");
-            return new SolrClusterOperations<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
+            return new SolrClusterOperationsProxy<T>(clusterBalancer, exceptionHandlers, maxAttempts, operationsProvider, shard.Replicas);
         }
 
         public bool Initialize() {
@@ -86,7 +86,7 @@ namespace SolrNet.Cloud {
             try {
                 if (zooKeeper == null)
                     zooKeeper = new ZooKeeper(zooKeeperConnection, TimeSpan.FromSeconds(10), this);
-                Collections = SolrClusterStateParser.ParseJson(
+                Collections = SolrClusterStateParser.ParseJsonToCollections(
                     Encoding.Default.GetString(
                         zooKeeper.GetData("/clusterstate.json", true, null)));
                 return true;

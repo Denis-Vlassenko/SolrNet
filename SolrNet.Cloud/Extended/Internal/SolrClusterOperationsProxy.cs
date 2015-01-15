@@ -7,8 +7,8 @@ using SolrNet.Mapping.Validation;
 using SolrNet.Schema;
 
 namespace SolrNet.Cloud {
-    internal class SolrClusterOperations<T> : ISolrOperations<T> {
-        public SolrClusterOperations(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrOperationsProvider operationsProvider, ISolrClusterReplicas usableReplicas)
+    internal class SolrClusterOperationsProxy<T> : ISolrOperations<T> {
+        public SolrClusterOperationsProxy(ISolrClusterBalancer clusterBalancer, SolrClusterExceptionHandlers exceptionHandlers, int maxAttempts, ISolrOperationsProvider operationsProvider, ISolrClusterReplicas usableReplicas)
         {
             this.clusterBalancer = clusterBalancer;
             this.exceptionHandlers = exceptionHandlers;
