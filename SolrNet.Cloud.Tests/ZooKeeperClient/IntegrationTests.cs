@@ -9,7 +9,7 @@ namespace SolrNet.Cloud.Tests
         [Test]
         public void AddRemoveTest() {
             const int DocumentCount = 1000;
-            const string ZooKeeperConnection = "10.26.11.30:9983";
+            const string ZooKeeperConnection = "127.0.0.1:9983";
 
             var state = new SolrCloudStateProvider(ZooKeeperConnection);
             state.Init();

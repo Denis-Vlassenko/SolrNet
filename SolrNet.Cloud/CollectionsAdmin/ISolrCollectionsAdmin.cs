@@ -69,7 +69,7 @@ namespace SolrNet.Cloud.CollectionsAdmin
         /// <param name="collection"></param>
         /// <param name="shard"></param>
         /// <returns></returns>
-        ClusterStatus GetClusterStatus(string collection, string shard = null);
+        SolrCloudState GetClusterStatus(string collection, string shard = null);
 
 
         /// <summary>
@@ -79,7 +79,4 @@ namespace SolrNet.Cloud.CollectionsAdmin
         /// <returns></returns>
         List<string> ListCollections();
     }
-
-
-    public class ClusterStatus {}
 }

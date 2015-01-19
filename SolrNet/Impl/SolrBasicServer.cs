@@ -88,11 +88,11 @@ namespace SolrNet.Impl {
         }
 
         public string Send(ISolrCommand cmd) {
-            throw new NotImplementedException();
+            return((LowLevelSolr)this).Send(cmd);
         }
 
         public ResponseHeader SendAndParseHeader(ISolrCommand cmd) {
-            throw new NotImplementedException();
+            return ((LowLevelSolr)this).SendAndParseHeader(cmd);
         }
 
         public ResponseHeader Delete(IEnumerable<string> ids, ISolrQuery q) {
@@ -150,18 +150,24 @@ namespace SolrNet.Impl {
 
         public XDocument Send(string handler, IEnumerable<KeyValuePair<string, string>> solrParams)
         {
-            var r = connection.Get(handler, solrParams);
+            var r = SendRaw(handler, solrParams);
             return XDocument.Parse(r);
         }
 
-        protected ResponseHeader SendAndParseHeader(ISolrCommand cmd)
+        public ResponseHeader SendAndParseHeader(ISolrCommand cmd)
         {
             var r = Send(cmd);
             var xml = XDocument.Parse(r);
             return headerParser.Parse(xml);
         }
 
-        protected string Send(ISolrCommand cmd)
+        public string SendRaw(string handler, IEnumerable<KeyValuePair<string, string>> solrParams)
+        {
+            var r = connection.Get(handler, solrParams);
+            return r;
+        }
+
+        public string Send(ISolrCommand cmd)
         {
             return cmd.Execute(connection);
         }

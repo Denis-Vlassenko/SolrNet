@@ -69,19 +69,20 @@ namespace SolrNet.Cloud.Tests
                 Assert.That(res.Status == 0);
 
                 collections.CreateShard(name, "shard3");
+                // Assert shard is created, check via cluster state
                 collections.DeleteShard(name, "shard3");
             } catch (Exception e) {
-                Assert.IsEmpty(e.ToString());
+                Assert.Fail(e.ToString());
             } finally {
                 var res = collections.DeleteCollection(name);
                 Assert.That(res.Status == 0);
             }
         }
 
-        private void RemoveCollectionIfExists(ISolrCollectionsAdmin collections, string name) {
-            var list = collections.ListCollections();
-            if (list.Contains(name))
-                collections.DeleteCollection(name);
+        private void RemoveCollectionIfExists(ISolrCollectionsAdmin solr, string colName) {
+            var list = solr.ListCollections();
+            if (list.Contains(colName))
+                solr.DeleteCollection(colName);
         }
     }
 }

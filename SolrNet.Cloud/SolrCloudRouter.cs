@@ -5,5 +5,9 @@
         }
 
         public string Name { get; set; }
+
+        public static string Explicit = "explicit";
+        public static string CompositId = "compositeId";
+
     }
 }
