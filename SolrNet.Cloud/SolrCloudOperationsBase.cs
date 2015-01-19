@@ -4,16 +4,17 @@ using System.Linq;
 
 namespace SolrNet.Cloud {
     public abstract class SolrCloudOperationsBase<T> {
-        protected SolrCloudOperationsBase(ISolrCloudState cloudState, ISolrOperationsProvider operationsProvider, string collectionName = null) {
+        protected SolrCloudOperationsBase(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null)
+        {
             this.collectionName = collectionName;
-            this.cloudState = cloudState;
+            this.cloudStateProvider = cloudStateProvider;
             this.operationsProvider = operationsProvider;
             random = new Random();
         }
 
         private readonly string collectionName;
 
-        private readonly ISolrCloudState cloudState;
+        private readonly ISolrCloudStateProvider cloudStateProvider;
 
         private readonly ISolrOperationsProvider operationsProvider;
 
@@ -21,31 +22,35 @@ namespace SolrNet.Cloud {
 
         protected TResult PerformBasicOperation<TResult>(Func<ISolrBasicOperations<T>, TResult> operation, bool leader = false)
         {
-            var nodes = SelectNodes(leader);
+            var replicas = SelectReplicas(leader);
             var operations = operationsProvider.GetBasicOperations<T>(
-                nodes[random.Next(nodes.Count)].Url);
+                replicas[random.Next(replicas.Count)].Url);
             if (operations == null)
                 throw new ApplicationException("Operations provider returned null.");
             return operation(operations);
         }
 
         protected TResult PerformOperation<TResult>(Func<ISolrOperations<T>, TResult> operation, bool leader = false) {
-            var nodes = SelectNodes(leader);
+            var replicas = SelectReplicas(leader);
             var operations = operationsProvider.GetOperations<T>(
-                nodes[random.Next(nodes.Count)].Url);
+                replicas[random.Next(replicas.Count)].Url);
             if (operations == null)
                 throw new ApplicationException("Operations provider returned null.");
             return operation(operations);
         }
 
-        private IList<SolrCloudNode> SelectNodes(bool leader) {
-            var nodes = cloudState.Nodes
-                .Where(node => node.IsActive && (!leader || node.IsLeader))
-                .Where(node => collectionName == null || collectionName.Equals(node.Collection, StringComparison.OrdinalIgnoreCase))
+        private IList<SolrCloudReplica> SelectReplicas(bool leaders) {
+            var state = cloudStateProvider.GetCloudState();
+            var collection = collectionName == null
+                ? state.Collections.Values.First()
+                : state.Collections[collectionName];
+            var replicas = collection.Shards.Values
+                .SelectMany(shard => shard.Replicas.Values)
+                .Where(replica => replica.IsActive && (!leaders || replica.IsLeader))
                 .ToList();
-            if (nodes.Count == 0)
+            if (replicas.Count == 0)
                 throw new ApplicationException("No appropriate node was selected to perform the operation.");
-            return nodes;
+            return replicas;
         }
     }
 }

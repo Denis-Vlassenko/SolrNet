@@ -13,7 +13,8 @@ namespace SolrNet.Cloud
     
     public class SolrCloudBasicOperations<T> : SolrCloudOperationsBase<T>, ISolrCloudBasicOperations<T>
     {
-        public SolrCloudBasicOperations(ISolrCloudState cloudState, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudState, operationsProvider, collectionName) {}
+        public SolrCloudBasicOperations(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudStateProvider, operationsProvider, collectionName) { }
+
         public SolrQueryResults<T> Query(ISolrQuery query, QueryOptions options) {
             return PerformBasicOperation(operations => operations.Query(query, options));
         }

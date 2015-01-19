@@ -12,7 +12,7 @@ namespace SolrNet.Cloud {
     }
 
     public class SolrCloudOperations<T> : SolrCloudOperationsBase<T>, ISolrCloudOperations<T> {
-        public SolrCloudOperations(ISolrCloudState cloudState, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudState, operationsProvider, collectionName) {}
+        public SolrCloudOperations(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudStateProvider, operationsProvider, collectionName) { }
 
         public SolrQueryResults<T> Query(ISolrQuery query, QueryOptions options) {
             return PerformOperation(operations => operations.Query(query, options));

@@ -12,7 +12,7 @@ namespace SolrNet.Unity.Tests
     {
         [Test]
         public void TestSimple() {
-            Startup.Init<TestEntity>("localhost:8983");
+            Startup.Init<TestEntity>("http://localhost:8983/solr/myconf");
 
             TestRoutine<ISolrOperations<TestEntity>>();
         }

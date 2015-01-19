@@ -62,15 +62,21 @@
   <ItemGroup>
     <Compile Include="CollectionsAdmin\SolrCollectionsAdmin.cs" />
     <Compile Include="CollectionsAdmin\ISolrCollectionsAdmin.cs" />
-    <Compile Include="ISolrCloudState.cs" />
+    <Compile Include="ISolrCloudStateProvider.cs" />
     <Compile Include="ISolrOperationsProvider.cs" />
+    <Compile Include="MurMurHash3.cs" />
     <Compile Include="SolrCloudBasicOperations.cs" />
     <Compile Include="SolrCloudOperationsBase.cs" />
     <Compile Include="SolrCloudState.cs" />
     <Compile Include="SolrCloudNode.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SolrCloudOperations.cs" />
-    <Compile Include="SolrCloudStateParser.cs" />
+    <Compile Include="ZooKeeperClient\SolrCloudStateParser.cs" />
+    <Compile Include="SolrCloudReplica.cs" />
+    <Compile Include="SolrCloudShard.cs" />
+    <Compile Include="SolrCloudCollection.cs" />
+    <Compile Include="SolrCloudRouter.cs" />
+    <Compile Include="ZooKeeperClient\SolrCloudStateProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <None Include="app.config" />
