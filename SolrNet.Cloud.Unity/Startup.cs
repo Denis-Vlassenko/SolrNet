@@ -96,18 +96,18 @@ namespace SolrNet.Cloud
         private class OperationsProvider : ISolrOperationsProvider {
             private void EnsureRegistration<T>(string url) {
                 lock (KnownRegistrations)
-                    if (KnownRegistrations.Add(string.Concat(url, "/", typeof(T))))
+                    if (KnownRegistrations.Add(string.Concat(url, "/", typeof(T).FullName)))
                         Parent.Init<T>(url);
             }
 
             public ISolrBasicOperations<T> GetBasicOperations<T>(string url) {
                 EnsureRegistration<T>(url);
-                return Parent.Container.GetInstance<ISolrBasicOperations<T>>();
+                return Parent.Container.GetInstance<ISolrBasicOperations<T>>(url);
             }
 
             public ISolrOperations<T> GetOperations<T>(string url) {
                 EnsureRegistration<T>(url);
-                return Parent.Container.GetInstance<ISolrOperations<T>>();
+                return Parent.Container.GetInstance<ISolrOperations<T>>(url);
             }
         }
     }
