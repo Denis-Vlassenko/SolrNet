@@ -14,13 +14,14 @@ namespace SolrNet.Cloud.Tests {
         }
 
         [Test]
-        public void EmptyJsonProducesEmptyState() {
+        public void EmptyJsonShouldProduceEmptyState() {
             var state = SolrCloudStateParser.Parse(EmptyJson);
             Assert.False(state.Collections.Any());
         }
 
         [Test]
-        public void NotEmptyJsonProducesNotEmptyState() {
+        public void NotEmptyJsonShouldProduceNotEmptyState()
+        {
             var collections = SolrCloudStateParser.Parse(NotEmptyJson).Collections.Values;
             Assert.True(collections.Any());
             var shards = collections.SelectMany(collection => collection.Shards.Values).ToList();

@@ -55,9 +55,12 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="CollectionsAdminTests.cs" />
-    <Compile Include="ComplexTests.cs" />
-    <Compile Include="SolrClusterStateParserTests.cs" />
-    <Compile Include="TestEntity.cs" />
+    <Compile Include="FakeOperations.cs" />
+    <Compile Include="FakeProvider.cs" />
+    <Compile Include="ZooKeeperClient\IntegrationTests.cs" />
+    <Compile Include="SolrCloudOperationsTests.cs" />
+    <Compile Include="ZooKeeperClient\SolrClusterStateParserTests.cs" />
+    <Compile Include="FakeEntity.cs" />
     <Compile Include="ZooKeeperClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

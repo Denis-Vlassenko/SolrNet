@@ -57,11 +57,33 @@ namespace SolrNet.Unity.Tests
                 };
             }
         }
+
+        [Test]
+        public void AddRemoveTest()
+        {
+            const int DocumentCount = 1000;
+            const string ZooKeeperConnection = "10.26.11.30:9983";
+
+            Startup.Init<TestEntity>(ZooKeeperConnection);
+            var operations = Startup.Container.GetInstance<ISolrCloudOperations<TestEntity>>();
+
+            operations.Delete(SolrQuery.All);
+            operations.Commit();
+
+            //// send one by one to test sharding distribution and sending to leaders only
+            foreach (var ent in GenerateTestData(DocumentCount))
+                operations.Add(ent);
+            operations.Commit();
+
+            var results = operations.Query(SolrQuery.All);
+            Assert.AreEqual(DocumentCount, results.Count, "results count");
+        }
     }
 
     public class TestEntity {
         [SolrField("id")]
         public string Id { get; set; }
+
         [SolrField("name")]
         public string Name { get; set; }
     }

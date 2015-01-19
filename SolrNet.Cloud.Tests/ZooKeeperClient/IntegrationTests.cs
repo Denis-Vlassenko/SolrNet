@@ -1,17 +1,19 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using NUnit.Framework;
+using SolrNet.Cloud.ZooKeeperClient;
 
 namespace SolrNet.Cloud.Tests
 {
-    class ComplexTests
-    {
+    class SolrCloudStateTests {
         [Test]
         public void AddRemoveTest() {
             const int DocumentCount = 1000;
             const string ZooKeeperConnection = "10.26.11.30:9983";
 
-            Startup.Init<TestEntity>(ZooKeeperConnection);
-            var operations = Startup.Container.GetInstance<ISolrCloudOperations<TestEntity>>();
+            var state = new SolrCloudStateProvider(ZooKeeperConnection);
+            state.Init();
+            var operations = new SolrCloudOperations<FakeEntity>(state, new OperationsProvider());
 
             operations.Delete(SolrQuery.All);
             operations.Commit();
@@ -25,13 +27,23 @@ namespace SolrNet.Cloud.Tests
             Assert.AreEqual(DocumentCount, results.Count, "results count");
         }
 
-        IEnumerable<TestEntity> GenerateTestData(int num)
+        IEnumerable<FakeEntity> GenerateTestData(int num)
         {
             for (var i = 0; i < num; i++)
-                yield return new TestEntity {
+                yield return new FakeEntity {
                     Id = i.ToString(),
                     Name = "test" + i
                 };
+        }
+
+        private class OperationsProvider : ISolrOperationsProvider {
+            public ISolrBasicOperations<T> GetBasicOperations<T>(string url) {
+                throw new NotImplementedException();
+            }
+
+            public ISolrOperations<T> GetOperations<T>(string url) {
+                return SolrNet.GetServer<T>(url);
+            }
         }
     }
 }
