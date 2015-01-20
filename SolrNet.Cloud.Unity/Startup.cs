@@ -1,6 +1,13 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Linq;
+using Microsoft.Practices.ServiceLocation;
+using Org.Apache.Zookeeper.Data;
 using SolrNet.Cloud.ZooKeeperClient;
+using SolrNet.Impl;
+using SolrNet.Impl.ResponseParsers;
+using SolrNet.Mapping.Validation;
+using SolrNet.Schema;
 using SolrNet.Utils;
 using Parent = SolrNet.Startup;
 
@@ -10,7 +17,6 @@ namespace SolrNet.Cloud
         static Startup() {
             AppDomain.CurrentDomain.DomainUnload += Dispose;
             CloudStatesProviders = new Dictionary<string, ISolrCloudStateProvider>(StringComparer.OrdinalIgnoreCase);
-            KnownRegistrations = new HashSet<string>(StringComparer.OrdinalIgnoreCase);
         }
 
         public static IContainer Container {
@@ -26,8 +32,6 @@ namespace SolrNet.Cloud
         }
 
         private static readonly Dictionary<string, ISolrCloudStateProvider> CloudStatesProviders;
-
-        private static readonly HashSet<string> KnownRegistrations;
 
         private static void EnsureRegistration(string zooKeeperConnection) {
             lock (CloudStatesProviders) {
@@ -47,19 +51,22 @@ namespace SolrNet.Cloud
 
         public static void Init<T>(string zooKeeperConnection) {
             EnsureRegistration(zooKeeperConnection);
-            Parent.Container.Register<ISolrCloudBasicOperations<T>>(
+            Parent.Container.Register<ISolrBasicOperations<T>>(
                 container => new SolrCloudBasicOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>()));
-            Parent.Container.Register<ISolrCloudBasicReadOnlyOperations<T>>(
+
+            Parent.Container.Register<ISolrBasicReadOnlyOperations<T>>(
                 container => new SolrCloudBasicOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>()));
-            Parent.Container.Register<ISolrCloudOperations<T>>(
+
+            Parent.Container.Register<ISolrOperations<T>>(
                 container => new SolrCloudOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>()));
-            Parent.Container.Register<ISolrCloudReadOnlyOperations<T>>(
+
+            Parent.Container.Register<ISolrReadOnlyOperations<T>>(
                 container => new SolrCloudOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>()));
@@ -67,25 +74,28 @@ namespace SolrNet.Cloud
 
         public static void Init<T>(string zooKeeperConnection, string collectionName) {
             EnsureRegistration(zooKeeperConnection);
-            Parent.Container.Register<ISolrCloudBasicOperations<T>>(
+            Parent.Container.Register<ISolrBasicOperations<T>>(
                 collectionName,
                 container => new SolrCloudBasicOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>(),
                     collectionName));
-            Parent.Container.Register<ISolrCloudBasicReadOnlyOperations<T>>(
+
+            Parent.Container.Register<ISolrBasicReadOnlyOperations<T>>(
                 collectionName,
                 container => new SolrCloudBasicOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>(),
                     collectionName));
-            Parent.Container.Register<ISolrCloudOperations<T>>(
+
+            Parent.Container.Register<ISolrOperations<T>>(
                 collectionName,
                 container => new SolrCloudOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
                     container.GetInstance<ISolrOperationsProvider>(),
                     collectionName));
-            Parent.Container.Register<ISolrCloudReadOnlyOperations<T>>(
+
+            Parent.Container.Register<ISolrReadOnlyOperations<T>>(
                 collectionName,
                 container => new SolrCloudOperations<T>(
                     container.GetInstance<ISolrCloudStateProvider>(zooKeeperConnection),
@@ -94,20 +104,12 @@ namespace SolrNet.Cloud
         }
 
         private class OperationsProvider : ISolrOperationsProvider {
-            private void EnsureRegistration<T>(string url) {
-                lock (KnownRegistrations)
-                    if (KnownRegistrations.Add(string.Concat(url, "/", typeof(T).FullName)))
-                        Parent.Init<T>(url);
-            }
-
             public ISolrBasicOperations<T> GetBasicOperations<T>(string url) {
-                EnsureRegistration<T>(url);
-                return Parent.Container.GetInstance<ISolrBasicOperations<T>>(url);
+                return SolrNet.GetBasicServer<T>(url);
             }
 
             public ISolrOperations<T> GetOperations<T>(string url) {
-                EnsureRegistration<T>(url);
-                return Parent.Container.GetInstance<ISolrOperations<T>>(url);
+                return SolrNet.GetServer<T>(url);
             }
         }
     }

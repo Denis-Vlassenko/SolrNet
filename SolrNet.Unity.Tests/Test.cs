@@ -14,7 +14,7 @@ namespace SolrNet.Unity.Tests
         public void TestSimple() {
             Startup.Init<TestEntity>("http://localhost:8983/solr/myconf");
 
-            TestRoutine<ISolrOperations<TestEntity>>();
+            TestRoutine();
         }
 
         [Test]
@@ -22,15 +22,14 @@ namespace SolrNet.Unity.Tests
         {
             CloudStartup.Init<TestEntity>("10.26.11.30:9983");
 
-            TestRoutine<ISolrCloudOperations<TestEntity>>();
+            TestRoutine();
         }
     
-        public void TestRoutine<T>()
-            where T : ISolrOperations<TestEntity>
+        public void TestRoutine()
         {
             var num = 1000;
 
-            var solr = ServiceLocator.Current.GetInstance<T>();
+            var solr = ServiceLocator.Current.GetInstance<ISolrOperations<TestEntity>>();
 
             solr.Delete(SolrQuery.All);
             solr.Commit();

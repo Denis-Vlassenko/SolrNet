@@ -17,6 +17,10 @@ using SolrNet.Schema;
 namespace SolrNet
 {
     public static class SolrNet {
+        public static ISolrBasicOperations<T> GetBasicServer<T>(string url)
+        {
+            return GetBasicServer<T>(new SolrConnection(url));
+        }
 
         public static ISolrOperations<T> GetServer<T>(string url) {
             return GetServer<T>(new SolrConnection(url));
