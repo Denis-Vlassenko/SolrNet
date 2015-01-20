@@ -18,7 +18,6 @@ namespace SolrNet.Cloud.CollectionsAdmin {
 
         public ResponseHeader CreateCollection(string collection, string routerName = null, int? numShards = null, string configName = null, string shards = null, int? maxShardsPerNode = null)
         {
-            
             var solrParams = new SolrParams()
                 .AddRequired("action", "create")
                 .AddRequired("name", collection)
@@ -27,7 +26,7 @@ namespace SolrNet.Cloud.CollectionsAdmin {
                 .AddOptional("shards", shards)
                 .AddOptional("maxShardsPerNode", maxShardsPerNode.ToString());
 
-            return SendAndParseHeader(adminHandler, solrParams.ToArray());
+            return SendAndParseHeader(adminHandler, solrParams);
         }
 
         public ResponseHeader DeleteCollection(string collection) {
@@ -58,9 +57,15 @@ namespace SolrNet.Cloud.CollectionsAdmin {
                 .AddRequired("name", collection));
         }
 
-        public ClusterStatus GetClusterStatus(string collection, string shard = null)
-        {
-            throw new NotImplementedException();
+        public SolrCloudState GetClusterStatus(string collection, string shard = null) {
+            var json = SendRaw(adminHandler, new SolrParams()
+                .AddRequired("wt", "json")
+                .AddRequired("action", "clustertsate")
+                .AddOptional("shard", shard));
+
+            var status = SolrCloudStateParser.Parse(json);
+
+            return status;
         }
 
         public List<string> ListCollections() {

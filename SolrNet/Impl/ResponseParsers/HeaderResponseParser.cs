@@ -28,7 +28,9 @@ namespace SolrNet.Impl.ResponseParsers {
     public class HeaderResponseParser<T> : HeaderResponseParser, ISolrAbstractResponseParser<T>
     {
         public void Parse(XDocument xml, AbstractSolrQueryResults<T> results) {
-            throw new NotImplementedException();
+            var header = Parse(xml);
+            if (header != null)
+                results.Header = header;
         }
     }
 
