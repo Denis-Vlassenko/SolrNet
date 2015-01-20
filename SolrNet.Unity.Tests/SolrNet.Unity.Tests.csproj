@@ -58,7 +58,6 @@
     <Compile Include="CommonServiceLocatorTests.cs" />
     <Compile Include="IntegrationTests.cs" />
     <Compile Include="ServiceLocatorTestCase.cs" />
-    <Compile Include="Test.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

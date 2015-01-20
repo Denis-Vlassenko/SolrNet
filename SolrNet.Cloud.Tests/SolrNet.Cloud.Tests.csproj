@@ -9,10 +9,11 @@
     <AppDesignerFolder>Properties</AppDesignerFolder>
     <RootNamespace>SolrNet.Cloud.Tests</RootNamespace>
     <AssemblyName>SolrNet.Cloud.Tests</AssemblyName>
-    <TargetFrameworkVersion>v4.5</TargetFrameworkVersion>
+    <TargetFrameworkVersion>v4.0</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <SolutionDir Condition="$(SolutionDir) == '' Or $(SolutionDir) == '*Undefined*'">..\</SolutionDir>
     <RestorePackages>true</RestorePackages>
+    <TargetFrameworkProfile />
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|AnyCPU' ">
     <DebugSymbols>true</DebugSymbols>
@@ -38,6 +39,10 @@
     <Reference Include="Microsoft.Practices.ServiceLocation">
       <HintPath>..\lib\Microsoft.Practices.ServiceLocation.dll</HintPath>
     </Reference>
+    <Reference Include="Microsoft.Practices.Unity, Version=2.1.505.0, Culture=neutral, PublicKeyToken=31bf3856ad364e35, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\lib\Microsoft.Practices.Unity.dll</HintPath>
+    </Reference>
     <Reference Include="nunit.framework">
       <HintPath>..\packages\NUnit.2.6.4\lib\nunit.framework.dll</HintPath>
     </Reference>
@@ -57,11 +62,11 @@
     <Compile Include="CollectionsAdminTests.cs" />
     <Compile Include="FakeOperations.cs" />
     <Compile Include="FakeProvider.cs" />
-    <Compile Include="ZooKeeperClient\IntegrationTests.cs" />
+    <Compile Include="UnityTests.cs" />
+    <Compile Include="StartupTests.cs" />
     <Compile Include="SolrCloudOperationsTests.cs" />
     <Compile Include="SolrClusterStateParserTests.cs" />
     <Compile Include="FakeEntity.cs" />
-    <Compile Include="ZooKeeperClientTests.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
@@ -96,6 +101,10 @@
     <ProjectReference Include="..\SolrNet\SolrNet.csproj">
       <Project>{ceeb8690-3e08-4440-b647-787a58e71cfa}</Project>
       <Name>SolrNet</Name>
+    </ProjectReference>
+    <ProjectReference Include="..\Unity.SolrNetCloudIntegration\Unity.SolrNetCloudIntegration.csproj">
+      <Project>{7b507754-c877-4de7-ae2a-19cf5191c95e}</Project>
+      <Name>Unity.SolrNetCloudIntegration</Name>
     </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />

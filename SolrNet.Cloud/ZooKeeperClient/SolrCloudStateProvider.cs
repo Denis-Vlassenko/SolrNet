@@ -10,6 +10,7 @@ namespace SolrNet.Cloud.ZooKeeperClient {
                 throw new ArgumentNullException("zooKeeperConnection");
             this.zooKeeperConnection = zooKeeperConnection;
             syncLock = new object();
+            Key = zooKeeperConnection;
         }
 
         private bool isDisposed;
@@ -23,6 +24,8 @@ namespace SolrNet.Cloud.ZooKeeperClient {
         private IZooKeeper zooKeeper;
 
         private readonly string zooKeeperConnection;
+
+        public string Key { get; private set; }
 
         public void Dispose()
         {

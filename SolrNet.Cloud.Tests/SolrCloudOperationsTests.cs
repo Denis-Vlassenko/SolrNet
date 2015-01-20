@@ -35,7 +35,7 @@ namespace SolrNet.Cloud.Tests
                     urls.Add(provider.LastUrl);
                 }
             }
-            Debug.Assert(urls.Count == count, "Should call Commit method");
+            Debug.Assert(urls.Count == count, "Should eventually use all active replicas for read");
         }
 
         [Test]
@@ -59,7 +59,7 @@ namespace SolrNet.Cloud.Tests
                     urls.Add(provider.LastUrl);
                 }
             }
-            Debug.Assert(urls.Count == count, "Should call Commit method");
+            Debug.Assert(urls.Count == count, "Should eventually use all active leaders for write");
         }
     }
 }

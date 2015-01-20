@@ -9,6 +9,10 @@ namespace SolrNet.Cloud.Tests
 
         public string LastUrl { get; set; }
 
+        public string Key {
+            get { return "Fake"; }
+        }
+
         public void Dispose() {
         }
 

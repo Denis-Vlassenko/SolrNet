@@ -5,15 +5,13 @@ using SolrNet.Schema;
 
 namespace SolrNet.Cloud
 {
-    public interface ISolrCloudBasicReadOnlyOperations<T> : ISolrBasicReadOnlyOperations<T> {
-    }
-
-    public interface ISolrCloudBasicOperations<T> : ISolrBasicOperations<T>, ISolrCloudBasicReadOnlyOperations<T> {
-    }
-    
-    public class SolrCloudBasicOperations<T> : SolrCloudOperationsBase<T>, ISolrCloudBasicOperations<T>
+    public class SolrCloudBasicOperations<T> : SolrCloudOperationsBase<T>, ISolrBasicOperations<T>
     {
-        public SolrCloudBasicOperations(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null) : base(cloudStateProvider, operationsProvider, collectionName) { }
+        public SolrCloudBasicOperations(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider)
+            : base(cloudStateProvider, operationsProvider) { }
+
+        public SolrCloudBasicOperations(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName) 
+            : base(cloudStateProvider, operationsProvider, collectionName) { }
 
         public SolrQueryResults<T> Query(ISolrQuery query, QueryOptions options) {
             return PerformBasicOperation(operations => operations.Query(query, options));

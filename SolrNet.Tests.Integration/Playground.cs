@@ -3,7 +3,7 @@ using Microsoft.Practices.ServiceLocation;
 using NUnit.Framework;
 using SolrNet.Attributes;
 using SolrNet.Cloud;
-
+using SolrNet.Cloud.ZooKeeperClient;
 using CloudStartup = SolrNet.Cloud.Startup;
 
 namespace SolrNet.Unity.Tests
@@ -13,16 +13,15 @@ namespace SolrNet.Unity.Tests
         [Test]
         public void TestSimple() {
             Startup.Init<TestEntity>("http://localhost:8983/solr/myconf");
-
             TestRoutine();
         }
 
         [Test]
-        public void TestSorlCloud()
-        {
-            CloudStartup.Init<TestEntity>("10.26.11.30:9983");
-
-            TestRoutine();
+        public void TestSorlCloud() {
+            using (var provider = new SolrCloudStateProvider("10.26.11.30:9983")) {
+                CloudStartup.Init<TestEntity>(provider);
+                TestRoutine();
+            }
         }
     
         public void TestRoutine()
@@ -64,7 +63,7 @@ namespace SolrNet.Unity.Tests
             const string ZooKeeperConnection = "10.26.11.30:9983";
 
             Startup.Init<TestEntity>(ZooKeeperConnection);
-            var operations = Startup.Container.GetInstance<ISolrCloudOperations<TestEntity>>();
+            var operations = Startup.Container.GetInstance<ISolrOperations<TestEntity>>();
 
             operations.Delete(SolrQuery.All);
             operations.Commit();

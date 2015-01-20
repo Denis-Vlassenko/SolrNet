@@ -4,12 +4,16 @@ using System.Linq;
 
 namespace SolrNet.Cloud {
     public abstract class SolrCloudOperationsBase<T> {
-        protected SolrCloudOperationsBase(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null)
-        {
-            this.collectionName = collectionName;
+        protected SolrCloudOperationsBase(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider) {
             this.cloudStateProvider = cloudStateProvider;
             this.operationsProvider = operationsProvider;
             random = new Random();
+        }
+
+        protected SolrCloudOperationsBase(ISolrCloudStateProvider cloudStateProvider, ISolrOperationsProvider operationsProvider, string collectionName = null)
+            : this(cloudStateProvider, operationsProvider)
+        {
+            this.collectionName = collectionName;
         }
 
         private readonly string collectionName;
