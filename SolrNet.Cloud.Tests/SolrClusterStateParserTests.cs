@@ -1,7 +1,6 @@
 ﻿using System.IO;
 using System.Linq;
 using NUnit.Framework;
-using SolrNet.Cloud.ZooKeeperClient;
 
 namespace SolrNet.Cloud.Tests {
     public class SolrClusterStateParserTests {

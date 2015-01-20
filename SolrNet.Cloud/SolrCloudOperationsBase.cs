@@ -45,6 +45,7 @@ namespace SolrNet.Cloud {
                 ? state.Collections.Values.First()
                 : state.Collections[collectionName];
             var replicas = collection.Shards.Values
+                .Where(shard => shard.IsActive)
                 .SelectMany(shard => shard.Replicas.Values)
                 .Where(replica => replica.IsActive && (!leaders || replica.IsLeader))
                 .ToList();
