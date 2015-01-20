@@ -3,7 +3,7 @@ using System.Globalization;
 using System.Linq;
 using Newtonsoft.Json.Linq;
 
-namespace SolrNet.Cloud.ZooKeeperClient {
+namespace SolrNet.Cloud{
     public static class SolrCloudStateParser {
         private static SolrCloudCollection BuildCollection(JProperty json) {
             var shards = (JObject) json.Value["shards"];
