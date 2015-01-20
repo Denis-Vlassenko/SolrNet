@@ -41,3 +41,4 @@ solrcloud/solr/shard2_replica1/data/*
 solrcloud/solr/shard2_replica2/data/*
 solrcloud/solr/shard2_replica3/data/*
 /SolrNet.Cloud/Playground/SolrClusterBase.cs
+solrcloud/solr/apps/solr/*

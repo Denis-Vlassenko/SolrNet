@@ -8,25 +8,22 @@ using CloudStartup = SolrNet.Cloud.Startup;
 
 namespace SolrNet.Unity.Tests
 {
-    public class Test
-    {
+    public class Test {
         [Test]
         public void TestSimple() {
-            Startup.Init<TestEntity>("http://localhost:8983/solr/myconf");
+            Startup.Init<TestEntity>("http://127.0.0.1:8983/solr/myconf");
 
             TestRoutine();
         }
 
         [Test]
-        public void TestSorlCloud()
-        {
-            CloudStartup.Init<TestEntity>("10.26.11.30:9983");
+        public void TestSorlCloud() {
+            CloudStartup.Init<TestEntity>("127.0.0.1:9983");
 
             TestRoutine();
         }
-    
-        public void TestRoutine()
-        {
+
+        public void TestRoutine() {
             var num = 1000;
 
             var solr = ServiceLocator.Current.GetInstance<ISolrOperations<TestEntity>>();
@@ -45,45 +42,22 @@ namespace SolrNet.Unity.Tests
         }
 
 
-        IEnumerable<TestEntity> GenerateTestData(int num)
-        {
-            for (int i = 0; i < num; i++)
-            {
-                yield return new TestEntity()
-                {
+        private IEnumerable<TestEntity> GenerateTestData(int num) {
+            for (int i = 0; i < num; i++) {
+                yield return new TestEntity() {
                     Id = i.ToString(),
                     Name = "test" + i
                 };
             }
         }
 
-        [Test]
-        public void AddRemoveTest()
-        {
-            const int DocumentCount = 1000;
-            const string ZooKeeperConnection = "10.26.11.30:9983";
 
-            Startup.Init<TestEntity>(ZooKeeperConnection);
-            var operations = Startup.Container.GetInstance<ISolrCloudOperations<TestEntity>>();
+        public class TestEntity {
+            [SolrField("id")]
+            public string Id { get; set; }
 
-            operations.Delete(SolrQuery.All);
-            operations.Commit();
-
-            //// send one by one to test sharding distribution and sending to leaders only
-            foreach (var ent in GenerateTestData(DocumentCount))
-                operations.Add(ent);
-            operations.Commit();
-
-            var results = operations.Query(SolrQuery.All);
-            Assert.AreEqual(DocumentCount, results.Count, "results count");
+            [SolrField("name")]
+            public string Name { get; set; }
         }
-    }
-
-    public class TestEntity {
-        [SolrField("id")]
-        public string Id { get; set; }
-
-        [SolrField("name")]
-        public string Name { get; set; }
     }
 }
