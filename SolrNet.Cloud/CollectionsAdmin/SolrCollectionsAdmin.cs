@@ -46,7 +46,7 @@ namespace SolrNet.Cloud.CollectionsAdmin {
         public ResponseHeader DeleteShard(string collection, string shard)
         {
             return SendAndParseHeader(adminHandler, new SolrParams()
-                .AddRequired("action", "createshard")
+                .AddRequired("action", "deleteshard")
                 .AddRequired("collection", collection)
                 .AddRequired("shard", shard));
         }
@@ -72,7 +72,7 @@ namespace SolrNet.Cloud.CollectionsAdmin {
             var results = Send(adminHandler, new SolrParams()
                 .AddRequired("action", "list"));
 
-            var paramNodes = results.XPathSelectElements("lst[@name='params']/str");
+            var paramNodes = results.XPathSelectElements("response/arr[@name='collections']/str");
 
             return paramNodes.Select(n => n.Value).ToList();
         }
